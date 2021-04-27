@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="icon" href="../../favicon.ico" type="image/png">
+	<title>Video List</title>
+	<meta name="description" content="Wrapper: Offline's Video List">
+	<link rel="stylesheet" type="text/css" href="../css/modern-normalize.css">
+	<link rel="stylesheet" type="text/css" href="../css/global.css">
+	<link rel="stylesheet" type="text/css" href="../css/list.css">
+</head>
+<body>
+
+<header>
+	<img id="logo" src="../assets/logo.svg" alt="Wrapper: Offline"/>
+	<nav id="headbuttons">
+		<div class="dropdown_contain button_small">
+			<div class="dropdown_button">UPLOAD</div>
+			<nav class="dropdown_menu">
+				<a onclick="document.getElementById('file').click()">UPLOAD A MOVIE</a>
+                <a onclick="document.getElementById('file2').click()">UPLOAD A CHARACTER</a>
+			</nav>
+		</div>
+		<a href="create.html" id="createpage" class="button_big">CREATE</a>
+	</nav>
+</header>
+
+<main>
+<div class="warning">Please note that v1.3.0 of Wrapper: Offline is currently in beta, so there might be some problems with it and it may or may not be stable. Builds with bug fixes will regularly be released, and everytime this happens it is suggested that you run the <code class="language-plaintext highlighter-rouge">update_wrapper.bat</code> file to upgrade your copy of 1.3.0 to the latest build. If you have any problems using this, don't hesitate to report them in #wrapper-support over on <a href="https://discord.gg/Hk52HZZYpj">our Discord server</a>.</div>
+	<table>
+		<thead>
+			<tr>
+				<td></td>
+				<td>Video Title</td>
+				<td>Last Modified</td>
+				<td></td>
+			</tr>
+		</thead>
+		<tbody></tbody>
+		<tfoot>
+			<tr>
+				<td colspan="127"><a id="load_more" href="javascript:;">LOAD MORE...</a></td>
+			</tr>
+		</tfoot>
+	</table>
+</main>
+
+<footer>
+	<nav id="foot-left">
+		<span>VERSIÖN</span>
+		<a href="https://localhost:4664/faq.html">FAQ</a>
+		<a href="https://discord.gg/yhGAetN">Wrapper Hub</a>
+	</nav>
+
+	<nav id="foot-right">
+		<a href="https://localhost:4664">Server Page</a>
+		<a href="https://localhost:4664/caillou.html">Caillou</a>
+	</nav>
+</footer>
+
+
+
+</body>
+
+<form enctype='multipart/form-data' action='/upload_movie' method='post'>
+	<input id='file' type="file" onchange="this.form.submit()" name='import' />
+</form>
+
+<form enctype='multipart/form-data' action='/upload_character' method='post'>
+	<input id='file2' type="file" onchange="this.form.submit()" name='import' accept=".xml" />
+</form>
+
+<script src="..\js\GetMovieListTable.js"></script>
+
+</html>
