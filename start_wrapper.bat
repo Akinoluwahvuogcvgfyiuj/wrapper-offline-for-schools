@@ -823,6 +823,7 @@ cls
 echo:
 popd
 title Wrapper: Offline For Schools v!WRAPPER_VER! [running...]
+echo Wrapper: Offline For Schools v!WRAPPER_VER!
 echo An original project from VisualPlugin, original adapted by 
 echo the Wrapper: Offline Team, and mod by: Jaime A. Dismaya III.
 echo:
