@@ -1,6 +1,7 @@
 title Wrapper: Offline Reset Script
 :: Resets any changed files to make a fresh install, meant for devs making a new release
-:: Author: benson#0411
+:: Original Author: benson#0411
+:: Mod Author: JaimetheDiscordArchiveandNickFan#8359 (jaigitrep159)
 :: License: MIT
 
 :: Initialize (stop command spam, clean screen, make variables work, set to UTF-8)
@@ -95,13 +96,13 @@ md utilities\checks
 
 :: Reset settings
 del /q /s utilities\config.bat || set ERROR_DELCONFIG=y
-echo :: Wrapper: Offline Config>> utilities\config.bat
+echo :: Wrapper: Offline For Schools Config>> utilities\config.bat
 echo :: This file is modified by settings.bat. It is not organized, but comments for each setting have been added.>> utilities\config.bat
 echo :: You should be using settings.bat, and not touching this. Offline relies on this file remaining consistent, and it's easy to mess that up.>> utilities\config.bat
 echo:>> utilities\config.bat
 echo :: Opens this file in Notepad when run>> utilities\config.bat
 echo setlocal>> utilities\config.bat
-echo if "%%SUBSCRIPT%%"=="" ( pushd "%~dp0" ^& start notepad.exe config.bat ^& exit )>> utilities\config.bat
+echo if "%%SUBSCRIPT%%"=="" ( start notepad.exe "%%CD%%\%%~nx0" ^& exit )>> utilities\config.bat
 echo endlocal>> utilities\config.bat
 echo:>> utilities\config.bat
 echo :: Shows exactly Offline is doing, and never clears the screen. Useful for development and troubleshooting. Default: n>> utilities\config.bat
@@ -128,6 +129,19 @@ echo:>> utilities\config.bat
 echo :: Runs through all of the scripts code, while never launching or installing anything. Useful for development. Default: n>> utilities\config.bat
 echo set DRYRUN=n>> utilities\config.bat
 echo:>> utilities\config.bat
+echo :: Makes it so it uses the Cepstral website instead of VFProxy. Default: n>> utilities\config.bat
+echo set CEPSTRAL=n>> utilities\config.bat
+echo:>> utilities\config.bat
+echo :: Opens Offline in an included copy of Basilisk, sourced from BlueMaxima's Flashpoint.>> utilities\config.bat
+echo :: Allows continued use of Flash as modern browsers disable it. Default: n>> utilities\config.bat
+echo:>> utilities\config.bat
+echo set INCLUDEDBASILISK=n>> utilities\config.bat
+echo:>> utilities\config.bat
+echo :: Makes it so both the settings and the Wrapper launcher shows developer options. Default: n>> utilities\config.bat
+echo set DEVMODE=n>> utilities\config.bat
+echo:>> utilities\config.bat
+echo :: Tells settings.bat which port the frontend is hosted on. ^(If changed manually, you MUST also change the value of "SERVER_PORT" to the same value in wrapper\env.json^) Default: 8000>> utilities\config.bat
+echo set PORT=8000>> utilities\config.bat
 
 :: Reset Chromium profile
 rd /q /s utilities\ungoogled-chromium\the_profile || set ERROR_DELCHROME=y
@@ -144,11 +158,9 @@ md import || set ERROR_DELIMPORT=y & goto skipimportreset
 pushd import
 echo ^<?xml version="1.0" encoding="utf-8"?^> >>theme.xml
 echo ^<theme id="import" name="Imported Assets" cc_theme_id="import"^> >>theme.xml
-echo ^<^^!--Sorry that there's no indenting, I couldn't get the import script to keep that.--^> >>theme.xml
-echo ^<^^!--Also, be sure to leave a blank line before ^<theme^>, otherwise the import script breaks.--^> >>theme.xml
-echo ^<char id="327068788" name="the benson apparition" cc_theme_id="family" thumbnail_url="char-default.png" copyable="Y"^> >>theme.xml
-echo ^<tags^>family,every,copy,of,wrapper,offline,is,_free,software,but,is,also,_cat:personalized^</tags^> >>theme.xml
-echo ^</char^> >>theme.xml
+echo 	^<char id="327068788" name="the benson apparition" cc_theme_id="family" thumbnail_url="char-default.png" copyable="Y"^> >>theme.xml
+echo 		^<tags^>family,every,copy,of,wrapper,offline,is,_free,software,but,is,also,_cat:personalized^</tags^> >>theme.xml
+echo 	^</char^> >>theme.xml
 echo:>>theme.xml
 echo ^</theme^> >>theme.xml
 popd

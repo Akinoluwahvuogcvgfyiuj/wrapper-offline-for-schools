@@ -37,35 +37,36 @@ While completely unnecessary, if you decide to use your freedom to change the so
 **Please do not contact anyone on the list for support, use the Discord server.**
 
 Original Wrapper credits:
-| Name         | Contribution         |
-| ------------ | -------------------- |
+| Name             | Contribution         |
+| ---------------- | -------------------- |
 | VisualPlugin (C) | GoAnimate Wrapper    |
 | xomdjl_ (D)      | Custom/Modded Assets |
-| mommadomma (D)   | Bug fixes            |
-| It'sJay   | Asset Recreation     |
+| CLarramore (D)   | Bug fixes            |
+| Poley Magik      | Asset Recreation     |
 
 Some members of the original team have asked to not be given credit, and they have been removed.
 
 Developers will have (D) on their name, to show they are officially working on Wrapper: Offline. Beta testers will have (B) on their name to show that they are beta testers for Wrapper: Offline. Contributors will have (C) on their name to show that they are making contributions to Wrapper: Offline by sharing some of their files with us. Everyone else has simply contributed something at some point.
 Wrapper: Offline credits:
 
-| Name                             | Contribution                                                                                                  								          |
+
+| Name                             | Contribution                                                                                                                                         |
 | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Benson (D)                       | Wrapper: Offline                                                                                                    							      |
-| It'sJay (D)                   | CC Toon adventure, Expanded Color Palette, Head props and wearables and much more.     														      |
-| NathanSaturnBOİ	                        | Logo                                                                                                                   							  |
-| VisualPlugin (C)                 | Text to speech voices, background importing, tons of bug fixes and more  											    							  |
-| mommadomma (D) (B) 		       | Various bug fixes and development for some of the features 																						  |
-| **xomdjl_** (D)         	       | Lead developer for v1.3.0 and onward, export script, pick a theme page, implementing the Flashpoint version of Basilisk browser, TTS voices and more |                                                            |
-| creepyjokes2000 (D)        	   | Waveform fix, improved actions                                                                                         							  |
-| JoshAnimate                 	   | Headgear fix                                                                                                           							  |
-| 2Epik4u (D) (B)                  | Discord RPC, maintainer of Wrapper: Offline and private GitHub repository creator                                      							  |
-| GoTest334 (B)                    | Maintainer of Wrapper: Offline Discord                                                                                   							  |
-| The Invincible Sphynx Cat (B)    | Beta testing, suggestions, remastered GoAnimate tracks (provided separately, not included) 														  |
-| MJ, the Spirit (D) (B)		   | Facial expression fix, video/imported asset backup tool and action pack tool creator 																					  |
-| MegaT (C)                        | CC browser code  																																	  |
-| narutofan420                     | New CSS theme on video and theme lists, dark mode character creator  																				  |
-| Spark (D) (B)                    | Video list grid view, rewriting faq.html, other small tweaks. 																						  |
+| Benson (D)                       | Wrapper: Offline                                                                                                                                     |
+| Poley Magik                      | CC Toon adventure, Expanded Color Palette, Head props and wearables and much more.                                                                   |
+| NathanTDA                        | Logo                                                                                                                                                 |
+| VisualPlugin (C)                 | Text to speech voices, background importing, tons of bug fixes and more                                                                              |
+| CLarramore (D) (B) 		   | Various bug fixes and development for some of the features                                                                                           |
+| **xomdjl_** (D)         	   | Lead developer for v1.3.0 and onward, export script, pick a theme page, implementing the Flashpoint version of Basilisk browser, TTS voices and more |       
+| creepyjokes2000 (D)        	   | Waveform fix, improved actions                                                                                                                       |
+| JoshAnimate                 	   | Headgear fix                                                                                                                                         |
+| 2Epik4u (D) (B)                  | Discord RPC, maintainer of Wrapper: Offline and private GitHub repository creator                                                                    |
+| GoTest334 (B)                    | Maintainer of Wrapper: Offline Discord                                                                                                               |
+| The Invincible Sphynx Cat (B)    | Beta testing, suggestions, remastered GoAnimate tracks (provided separately, not included)                                                           |	
+| MJ, the Spirit (D) (B)	   | Facial expression fix, video/imported asset backup tool, action pack tool creator, bug fixes                                                         |
+| MegaT (C)                        | CC browser code                                                                                                                                      |
+| narutofan420                     | New CSS theme on video and theme lists, dark mode character creator                                                                                  |
+| Spark (D) (B)                    | Video list grid view, rewriting faq.html, other small tweaks.                                                                                        |
 
 These are unaffiliated people that they haven't directly done anything for the project (and probably don't even know it exists) but still deserve credit for their things. Kinda like a shoutout but in a project's readme. ***Please do not contact them about Wrapper: Offline.***
 

@@ -775,8 +775,7 @@ echo 	"CACHÉ_FOLDER": "./_CACHÉ",>> !env!
 echo 	"THEME_FOLDER": "./_THEMES",>> !env!
 echo 	"PREMADE_FOLDER": "./_PREMADE",>> !env!
 echo 	"EXAMPLE_FOLDER": "./_EXAMPLES",>> !env!
-echo 	"WRAPPER_VER": "1.3.0",>> !env!
-echo 	"WRAPPER_BLD": "12",>> !env!
+echo 	"WRAPPER_VER": "2.0",>> !env!
 echo 	"NODE_TLS_REJECT_UNAUTHORIZED": "0">> !env!
 echo }>> !env!
 set TOTOGGLE=PORT

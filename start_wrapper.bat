@@ -1,6 +1,6 @@
 :: Wrapper: Offline For Schools Launcher
 :: Original Author: benson#0411
-:: Mod Author: JaimetheDiscordArchiveandNickFan#8359 (jaigitrep159)
+:: Mod Author: jaime.#8359 (jaigitrep159)
 :: License: MIT
 set WRAPPER_VER=2.0
 title Wrapper: Offline For Schools v%WRAPPER_VER% [Initializing...]
@@ -23,7 +23,7 @@ if not exist wrapper ( goto error_location )
 if not exist server ( goto error_location )
 goto noerror_location
 :error_location
-echo Doesn't seem like this script is in a Wrapper: Offline folder.
+echo Doesn't seem like this script is in a Wrapper: Offline For Schools folder.
 pause && exit
 :noerror_location
 
@@ -65,8 +65,7 @@ if not exist "utilities\checks\disclaimer.txt" (
 	echo except for some dependencies which have different licenses with slightly different rights.
 	echo Read the LICENSE file in Offline's base folder and the licenses in utilities/sourcecode for more info.
 	echo:
-	echo By continuing to use Wrapper: Offline For Schools, you acknowledge the nature of this project, 
-	echo and your right to use it.
+	echo By continuing to use Wrapper: Offline For Schools, you acknowledge the nature of this project, and your right to use it.
 	echo If you object to any of this, feel free to close Wrapper: Offline For Schools now.
 	echo You will be allowed to accept 20 seconds after this message has appeared.
 	echo: 
@@ -88,10 +87,11 @@ if not exist "utilities\checks\disclaimer.txt" (
 :: Welcome, Director Ford!
 echo Wrapper: Offline For Schools
 echo An original project from VisualPlugin, 
-echo originally adapted by Benson
-echo Original Adapted by xomdjl_, Original Wrapper: Offline Team
-echo and Mod by: Jaime A. Dismaya III.
-echo Version: !WRAPPER_VER!
+echo originally adapted by Benson,
+echo originally 2x Adapted by xomdjl_,
+echo Original Wrapper: Offline Team, and mod by:
+echo Jaime A. D. III.
+echo Version !WRAPPER_VER!
 echo:
 
 :: Confirm measurements to proceed.
@@ -439,7 +439,7 @@ if !FLASH_DETECTED!==n (
 		echo Starting Flash for Chrome installer...
 		if not exist "utilities\installers\flash_windows_chromium.msi" (
 			echo ...erm. Bit of an issue there actually. The installer doesn't exist.
-			echo A normal copy of Wrapper: Offline For Schools should come with one.
+			echo A mod copy of Wrapper: Offline For Schools should come with one.
 			echo You may be able to find a copy on this website:
 			echo https://archive.org/download/flashplayerarchive/pub/flashplayer/installers/archive/
 			echo Although Flash is needed, Offline will continue launching.
@@ -451,7 +451,7 @@ if !FLASH_DETECTED!==n (
 		echo Starting Flash for Firefox installer...
 		if not exist "utilities\installers\flash_windows_firefox.msi" (
 			echo ...erm. Bit of an issue there actually. The installer doesn't exist.
-			echo A normal copy of Wrapper: Offline For Schools should come with one.
+			echo A mod copy of Wrapper: Offline For Schools should come with one.
 			echo You may be able to find a copy on this website:
 			echo https://archive.org/download/flashplayerarchive/pub/flashplayer/installers/archive/
 			echo Although Flash is needed, Offline will try to install anything else it can.
@@ -464,7 +464,7 @@ if !FLASH_DETECTED!==n (
 		echo Running FlashPatch...
 		if not exist "utilities\FlashPatch.exe" (
 			echo ...erm. Bit of an issue there actually. FlashPatch.exe doesn't exist.
-			echo A normal copy of Wrapper: Offline For Schools should come with a copy of FlashPatch.
+			echo A mod copy of Wrapper: Offline For Schools should come with a copy of FlashPatch.
 			echo You may be able to get FlashPatch here:
 			echo https://github.com/darktohka/FlashPatch/releases/tag/v1.5
 			echo Although FlashPatch is needed to patch the timebomb on ActiveX versions
@@ -490,7 +490,7 @@ if !NODEJS_DETECTED!==n (
 		if !VERBOSEWRAPPER!==y ( echo 64-bit system detected, installing 64-bit Node.js. )
 		if not exist "utilities\installers\node_windows_x64.msi" (
 			echo We have a problem. The 64-bit Node.js installer doesn't exist.
-			echo A normal copy of Wrapper: Offline For Schools should come with one.
+			echo A mod copy of Wrapper: Offline For Schools should come with one.
 			echo You should be able to find a copy on this website:
 			echo https://nodejs.org/en/download/
 			echo Although Node.js is needed, Offline will try to install anything else it can.
@@ -506,7 +506,7 @@ if !NODEJS_DETECTED!==n (
 		if !VERBOSEWRAPPER!==y ( echo 32-bit system detected, installing 32-bit Node.js. )
 		if not exist "utilities\installers\node_windows_x32.msi" (
 			echo We have a problem. The 32-bit Node.js installer doesn't exist.
-			echo A normal copy of Wrapper: Offline For Schools should come with one.
+			echo A mod copy of Wrapper: Offline For Schools should come with one.
 			echo You should be able to find a copy on this website:
 			echo https://nodejs.org/en/download/
 			echo Although Node.js is needed, Offline will try to install anything else it can.
@@ -569,7 +569,7 @@ if !HTTPSERVER_DETECTED!==n (
 			echo:
 			if not exist "utilities\installers\http-server-master" (
 				echo Well, we'd try that if the files existed.
-				echo A normal copy of Wrapper: Offline For Schools should come with them.
+				echo A mod copy of Wrapper: Offline For Schools should come with them.
 				echo You should be able to find a copy on this website:
 				echo https://www.npmjs.com/package/http-server
 				echo Although http-server is needed, Offline will try to install anything else it can.
@@ -663,7 +663,7 @@ if !HTTPSCERT_DETECTED!==n (
 				)
 			) else (
 				pushd utilities\ungoogled-chromium
-				start chrome.exe --user-data-dir=the_profile https://localhost:4664/certbypass.html --allow-outdated-plugins >nul
+				start chromium.exe --user-data-dir=the_profile https://localhost:4664/certbypass.html --allow-outdated-plugins >nul
 				popd
 			)
 			pause
@@ -689,7 +689,7 @@ if !ADMINREQUIRED!==y (
 	color 20
 	if !VERBOSEWRAPPER!==n ( cls )
 	echo:
-	echo Dependencies needing Admin now installed^^!
+	echo Dependencies needing Admin now installed^!
 	echo:
 	echo Wrapper: Offline For Schools no longer needs Admin rights,
 	echo please restart normally by double-clicking.
@@ -707,7 +707,7 @@ if !ADMINREQUIRED!==y (
 	exit
 )
 color 0f
-echo All dependencies now installed^^! Continuing with Wrapper: Offline For Schools boot.
+echo All dependencies now installed^! Continuing with Wrapper: Offline For Schools boot.
 echo:
 
 :skip_dependency_install
@@ -786,14 +786,12 @@ if !INCLUDEDCHROMIUM!==n (
 if !INCLUDEDCHROMIUM!==y (
 	if !INCLUDEDBASILISK!==n (
 		echo Opening Wrapper: Offline For Schools using included Chromium...
-		pushd utilities\ungoogled-chromium
+		if !CPU_ARCHITECTURE!==64 ( pushd utilities\ungoogled-chromium )
+		if !CPU_ARCHITECTURE!==32 ( pushd utilities\ungoogled-chromium-x86 )
 		if !APPCHROMIUM!==y (
-			if !DRYRUN!==n ( start chrome.exe --user-data-dir=the_profile --app=http://localhost:!port! --allow-outdated-plugins )
+			if !DRYRUN!==n ( start chromium.exe --user-data-dir=the_profile --app=http://localhost:!port! --allow-outdated-plugins )
 		) else (
-			if !DRYRUN!==n ( 
-			if !CPU_ARCHITECTURE!==32 
-				start chrome.exe --user-data-dir=the_profile http://localhost:!port! --allow-outdated-plugins 
-			)
+			if !DRYRUN!==n ( start chromium.exe --user-data-dir=the_profile http://localhost:!port! --allow-outdated-plugins )
 		)
 	)
 )
@@ -808,7 +806,7 @@ if !INCLUDEDCHROMIUM!==n (
 )
 )
 
-echo Wrapper: Offline For Schools has been started^^! The video list should now be open.
+echo Wrapper: Offline For Schools has been started^! The video list should now be open.
 
 ::::::::::::::::
 :: Post-Start ::
@@ -824,11 +822,12 @@ echo:
 popd
 title Wrapper: Offline For Schools v!WRAPPER_VER! [running...]
 echo Wrapper: Offline For Schools v!WRAPPER_VER!
-echo An original project from VisualPlugin, original adapted by 
-echo the Wrapper: Offline Team, and mod by: Jaime A. Dismaya III.
+echo An original project from VisualPlugin, original 
+echo adapted by the Wrapper: Offline Team and mod by:
+echo Jaime A. D. III.
 echo:
-if !VERBOSEWRAPPER!==n ( echo DON'T CLOSE THIS WINDOW^^! Use the quit option ^(0^) when you're done. )
-if !VERBOSEWRAPPER!==y ( echo Verbose mode is on, see the two extra CMD windows for extra output. )
+if !VERBOSEWRAPPER!==n ( echo DON'T CLOSE THIS WINDOW^! Use the quit option ^(0^) when you're done. )
+if !VERBOSEWRAPPER!==y ( echo Verbose mode is on, see the extra CMD windows for extra output. )
 if !DRYRUN!==y ( echo Don't forget, nothing actually happened, this was a dry run. )
 if !JUSTIMPORTED!==y ( echo Note: You'll need to reload the editor for your file to appear. )
 :: Hello, code wanderer. Enjoy seeing all the secret options easily instead of finding them yourself.
@@ -842,7 +841,7 @@ echo Enter 2 to open the settings
 echo Enter 3 to import a file
 echo Enter 4 to open the server page
 echo Enter 5 to export a video
-echo Enter 6 to Update W:O using git
+echo Enter 6 to Update W:O4S using git
 echo Enter 7 to open the backup/restore tool
 echo Enter ? to open the FAQ
 echo Enter clr to clean up the screen
@@ -882,6 +881,7 @@ if "!choice!"=="420" echo 420 blaze it m8 B^) & goto wrapperidle
 if "!choice!"=="666" echo AAAAAA SP00PY NUMBER ME SHID MY PANTS AAAAAAA & goto wrapperidle
 if "!choice!"=="doggis" ( 
 	start "" https://youtu.be/vmIAZZMiwKw
+	PING -n 14 127.0.0.1>nul
 	echo Ven, ven a Doggis^!
 	PING -n 8 127.0.0.1>nul
 	echo Doggis tiene el mejor hot dog.
@@ -918,11 +918,11 @@ if /i "!choice!"=="watch benson on youtube" goto w_a_t_c_h
 if /i "!choice!"=="browser slayer" goto slayerstestaments
 if /i "!choice!"=="patch" goto patchtime
 if /i "!choice!"=="random" goto sayarandom
-if /i "!choice!"=="grounded" echo OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH^^!^^!^^!^^!^^!^^!^^! %USERNAME%, HOW DARE YOU TYPE "GROUNDED" INTO START_WRAPPER.BAT^^!^^!^^! THAT'S IT^^! YOU'RE GROUNDED GROUNDED GROUNDED GROUNDED FOR %RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM% YEARS^^!^^!^^!^^!^^!^^!^^!^^!^^!^^!^^! GO TO YOUR ROOM RIGHT FREAKING NOW^^!^^!^^! & goto wrapperidle
+if /i "!choice!"=="grounded" echo OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH OH^!^!^!^!^!^!^! %USERNAME%, HOW DARE YOU TYPE "GROUNDED" INTO START_WRAPPER.BAT^!^!^! THAT'S IT^! YOU'RE GROUNDED GROUNDED GROUNDED GROUNDED FOR %RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM%%RANDOM% YEARS^^!^^!^^!^^!^^!^^!^^!^^!^^!^^!^^! GO TO YOUR ROOM RIGHT FREAKING NOW^!^!^! & goto wrapperidle
 if /i "!choice!"=="die please" echo die please & goto wrapperidle
 if /i "!choice!"=="goanimate city" start https://discord.gg/goanimate & goto wrapperidle
 if /i "!choice!"=="spark" echo you suck at development & goto wrapperidle
-if /i "!choice!"=="wrapper 2" echo what is wrapper 2 doing in wrapper offline? get them out of here^^! & goto wrapperidle
+if /i "!choice!"=="wrapper 2" echo what is wrapper 2 doing in wrapper offline? get them out of here^! & goto wrapperidle
 if /i "!choice!"=="fire" echo kindle fire on the iphone
 if /i "!choice!"=="32k" echo i'm gonna kill you with the 32k pasho watch the fuck out & goto wrapperidle
 if /i "!choice!"=="6" echo 6 DIAMOND CHESTPLATES WHAT & goto wrapperidle
@@ -931,8 +931,9 @@ if /i "!choice!"=="indian" echo 'that's all those indians can do they just think
 if /i "!choice!"=="the sex show" echo time to cumz^! & goto wrapperidle
 if /i "!choice!"=="kenos" echo HOLY SHIT IT'S KENOS HOLY ShIT OH MY GOD & goto wrapperidle
 if /i "!choice!"=="muslim" echo Muslim Banker supports your decision to type 'muslim' & goto wrapperidle
-if /i "!choice!"=="ver 1.9" echo fuck you & goto wrapperidle
-if /i "!choice!"=="christmas jones" echo ragein gagein thinks he's so smart, i'll- i'll copyright your livestreams and you'- you'll get taken down^^! & goto wrapperidle
+if /i "!choice!"=="da old version" echo fuck you & goto wrapperidle
+if /i "!choice!"=="1.9" echo fuck you two times & goto wrapperidle
+if /i "!choice!"=="christmas jones" echo ragein gagein thinks he's so smart, i'll- i'll copyright your livestreams and you'- you'll get taken down^! & goto wrapperidle
 if /i "!choice!"=="icy" echo you're being hacked by me and the esa gang right now & goto wrapperidle
 if /i "!choice!"=="horny" echo horny wrapper devs & goto wrapperidle
 :: dev options
@@ -959,11 +960,12 @@ if !INCLUDEDCHROMIUM!==n (
 if !INCLUDEDCHROMIUM!==y (
 	if !INCLUDEDBASILISK!==n (
 		echo Opening Wrapper: Offline For Schools using included Chromium...
-		pushd utilities\ungoogled-chromium
+		if !CPU_ARCHITECTURE!==64 ( pushd utilities\ungoogled-chromium )
+		if !CPU_ARCHITECTURE!==32 ( pushd utilities\ungoogled-chromium-x86 )
 		if !APPCHROMIUM!==y (
-			if !DRYRUN!==n ( start chrome.exe --user-data-dir=the_profile --app=http://localhost:!port! --allow-outdated-plugins )
+			if !DRYRUN!==n ( start chromium.exe --user-data-dir=the_profile --app=http://localhost:!port! --allow-outdated-plugins )
 		) else (
-			if !DRYRUN!==n ( start chrome.exe --user-data-dir=the_profile http://localhost:!port! --allow-outdated-plugins )
+			if !DRYRUN!==n ( start chromium.exe --user-data-dir=the_profile http://localhost:!port! --allow-outdated-plugins )
 		)
 	)
 	)
@@ -998,11 +1000,12 @@ if !INCLUDEDBASILISK!==n (
 if !INCLUDEDCHROMIUM!==y (
 if !INCLUDEDBASILISK!==n (
 	echo Opening the server page using included Chromium...
-	pushd utilities\ungoogled-chromium
+	if !CPU_ARCHITECTURE!==64 ( pushd utilities\ungoogled-chromium )
+	if !CPU_ARCHITECTURE!==32 ( pushd utilities\ungoogled-chromium-x86 )
 	if !APPCHROMIUM!==y (
-		if !DRYRUN!==n ( start chrome.exe --user-data-dir=the_profile --app=https://localhost:4664 --allow-outdated-plugins )
+		if !DRYRUN!==n ( start chromium.exe --user-data-dir=the_profile --app=https://localhost:4664 --allow-outdated-plugins )
 	) else (
-		if !DRYRUN!==n ( start chrome.exe --user-data-dir=the_profile https://localhost:4664 --allow-outdated-plugins )
+		if !DRYRUN!==n ( start chromium.exe --user-data-dir=the_profile https://localhost:4664 --allow-outdated-plugins )
 	)
 	)
 	)
@@ -1021,8 +1024,8 @@ goto wrapperidle
 
 :open_files
 pushd ..
-echo Opening the wrapper-offline folder...
-start explorer.exe wrapper-offline
+echo Opening the Wrapper-Offline-For-Schools folder...
+start explorer.exe wrapper-offline-for-schools
 popd
 goto wrapperidle
 
@@ -1030,7 +1033,7 @@ goto wrapperidle
 echo Opening the importer...
 call utilities\import.bat
 cls
-title Wrapper: Offline For Schools v!WRAPPER_VER!
+title Wrapper: Offline v!WRAPPER_VER!
 set JUSTIMPORTED=y
 goto wrapperstartedcls
 
@@ -1042,9 +1045,9 @@ popd
 goto wrapperidle
 
 :updategit
-echo Updating W:O...
-popd
-call upgrade_wrapper.bat
+echo Updating W:O4S...
+cls
+call update_wrapper.bat
 cls
 title Wrapper: Offline For Schools v!WRAPPER_VER!
 goto wrapperstartedcls
@@ -1071,7 +1074,7 @@ goto wrapperidle
 
 :open_faq
 echo Opening the FAQ...
-start notepad.exe FAQ.txt
+start notepad.exe FAQ.md
 goto wrapperidle
 
 :wipe_save
@@ -1081,8 +1084,8 @@ goto wrapperidle
 :: flows straight to restart below
 
 :restart
-TASKKILL /IM node.exe /F
-if !CEPSTRAL!==n ( TASKKILL /IM php.exe /F )
+TASKKILL /IM node.exe /F >nul 2>&1
+if !CEPSTRAL!==n ( TASKKILL /IM php.exe /F >nul 2>&1 )
 start "" /wait /B "%~F0" point_insertion
 exit
 
@@ -1092,43 +1095,8 @@ echo watch benson on youtube
 echo watch benson on youtube
 echo watch benson on youtube
 echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watch benson on youtube
-echo watc--
 echo wa
-start https://www.youtube.com/channel/UCJwK22PVfKnSEuuoF2-vv3w
+start https://www.youtube.com/channel/UCJwK22PVfKnSEuuoF2-vv3w?sub_confirmation=1
 goto wrapperidle
 
 :patchtime
@@ -1255,18 +1223,18 @@ title Wrapper: Offline For Schools v!WRAPPER_VER! [Shutting down...]
 
 :: Shut down Node.js, PHP and http-server
 if !VERBOSEWRAPPER!==y (
-	if !DRYRUN!==n ( TASKKILL /IM node.exe /F )
+	if !DRYRUN!==n ( TASKKILL /IM node.exe /F >nul 2>&1 )
 	if !DRYRUN!==n ( 
 		if !CEPSTRAL!==n ( 
-			TASKKILL /IM php.exe /F
+			TASKKILL /IM php.exe /F >nul 2>&1
 		)
 	)
 	if !DRYRUN!==n ( 
 		if !INCLUDEDCHROMIUM!==y ( 
-			TASKKILL /IM %CD%\utilities\ungoogled-chromium\chrome.exe /F
+			TASKKILL /IM chromium.exe >nul 2>&1
 		)
 		if !INCLUDEDBASILISK!==y ( 
-			TASKKILL /IM %CD%\utilities\basilisk\Basilisk-Portable\Basilisk-Portable.exe /F
+			TASKKILL /IM "utilities\basilisk\Basilisk-Portable\Basilisk-Portable.exe" /F >nul 2>&1
 		)
 	)
 	echo:
@@ -1279,10 +1247,10 @@ if !VERBOSEWRAPPER!==y (
 	)
 	if !DRYRUN!==n ( 
 		if !INCLUDEDCHROMIUM!==y ( 
-			TASKKILL /IM %CD%\utilities\ungoogled-chromium\chrome.exe /F 2>nul
+			TASKKILL /IM chromium.exe 2>nul
 		)
 		if !INCLUDEDBASILISK!==y ( 
-			TASKKILL /IM %CD%\utilities\basilisk\Basilisk-Portable\Basilisk-Portable.exe /F 2>nul
+			TASKKILL /IM utilities\basilisk\Basilisk-Portable\Basilisk-Portable.exe /F 2>nul
 		)
 	)
 )
@@ -1291,40 +1259,40 @@ if !VERBOSEWRAPPER!==y (
 echo Wrapper: Offline For Schools has been shut down.
 if !FUCKOFF!==y ( echo You're a good listener. )
 echo This window will now close.
-echo Open start_wrapper.bat again to start W:O again.
+echo Open start_wrapper.bat again to start W:O4S again.
 if !DRYRUN!==y ( echo Go wet your run next time. ) 
 pause & exit
 
 :exitwithstyle
 title Wrapper: Offline For Schools v!WRAPPER_VER! [Shutting down... WITH STYLE]
-echo SHUTTING DOWN THE WRAPPER OFFLINE
+echo SHUTTING DOWN THE WRAPPER OFFLINE FOR SCHOOLS
 PING -n 3 127.0.0.1>nul
 color 9b
 echo BEWEWEWEWWW PSSHHHH KSHHHHHHHHHHHHHH
 PING -n 3 127.0.0.1>nul
-TASKKILL /IM node.exe /F
+TASKKILL /IM node.exe /F >nul 2>&1
 echo NODE DOT JS ANNIHILATED
 PING -n 3 127.0.0.1>nul
 if !CEPSTRAL!==n (
-	TASKKILL /IM php.exe /F
+	TASKKILL /IM php.exe /F >nul 2>&1
 	echo PHP DESTROYED
 	PING -n 3 127.0.0.1>nul
 )
 if !INCLUDEDCHROMIUM!==y (
-	TASKKILL /IM %CD%\utilities\ungoogled-chromium\chrome.exe /F
+	TASKKILL /IM chromium.exe >nul 2>&1
 	echo UNGOOGLED CHROMIUM COMPLETELY OBLITERATED
 	PING -n 3 127.0.0.1>nul
 )
 if !INCLUDEDBASILISK!==y (
-	TASKKILL /IM %CD%\utilities\basilisk\Basilisk-Portable\Basilisk-Portable.exe /F
+	TASKKILL /IM %CD%\utilities\basilisk\Basilisk-Portable\Basilisk-Portable.exe /F >nul 2>&1
 	echo BASILISK COMPLETELY OBLITERATED
 	PING -n 3 127.0.0.1>nul
 )
-echo TIME TO ELIMINATE WRAPPER OFFLINE
+echo TIME TO ELIMINATE WRAPPER OFFLINE FOR SCHOOLS
 PING -n 3 127.0.0.1>nul
 echo BOBOOBOBMWBOMBOM SOUND EFFECTSSSSS
 PING -n 3 127.0.0.1>nul
-echo WRAPPER OFFLINE ALSO ANNIHILA
+echo WRAPPER OFFLINE FOR SCHOOLS ALSO ANNIHILA
 PING -n 2 127.0.0.1>nul
 exit
 
@@ -1389,6 +1357,6 @@ echo:>> utilities\config.bat
 echo :: Makes it so both the settings and the Wrapper launcher shows developer options. Default: n>> utilities\config.bat
 echo set DEVMODE=n>> utilities\config.bat
 echo:>> utilities\config.bat
-echo :: Tells settings.bat which port the frontend is hosted on. ^(If changed manually, you MUST also change the value of "SERVER_PORT" to the same value in wrapper\env.json^) Default: 4343>> utilities\config.bat
-echo set PORT=4343>> utilities\config.bat
+echo :: Tells settings.bat which port the frontend is hosted on. ^(If changed manually, you MUST also change the value of "SERVER_PORT" to the same value in wrapper\env.json^) Default: 8000>> utilities\config.bat
+echo set PORT=8000>> utilities\config.bat
 goto returnfromconfigcopy
