@@ -1,9 +1,10 @@
-:: W:O Video Exporting Script
-:: Author: xomdjl_#1337 (ytpmaker1000@gmail.com)
+:: W:O4S Video Exporting Script
+:: Original Author: xomdjl_#1337 (ytpmaker1000@gmail.com)
+:: Mod Author: jaime.#8359 (jaigitrep159)
 :: License: MIT
 
-@echo off
-title Wrapper: Offline Exporting Script
+@echo off && cls
+title Wrapper: Offline For Schools Exporting Script
 
 :: To be quite honest I had to visit some old StackOverflow threads for help on this. ~xom
 
@@ -42,8 +43,8 @@ echo:
 echo Chances are you probably have this script in the wrong
 echo directory.
 echo:
-echo Make sure it's in the utilities folder of your copy of
-echo Wrapper: Offline, and then try again.
+echo Make sure it's in the utilities folder of your mod copy of
+echo Wrapper: Offline For Schools, and then try again.
 echo:
 pause
 exit
@@ -62,24 +63,25 @@ echo:
 goto findMovieId
 
 :noerror
-echo Before proceeding, we'll need to check to see if Wrapper: Offline is running.
+echo Before proceeding, we'll need to check to see if Wrapper: Offline For Schools is running.
 PING -n 4 127.0.0.1>nul
 echo:
 tasklist /FI "IMAGENAME eq node.exe" 2>NUL | find /I /N "node.exe">NUL
 if "%ERRORLEVEL%"=="0" (
-	echo Processes for "node.exe" ^(Node.js^) have been detected, meaning Wrapper: Offline is running.
+	echo Processes for "node.exe" ^(Node.js^) have been detected, meaning Wrapper: Offline For Schools is running.
 	PING -n 6 127.0.0.1>nul
 	cls
 ) else (
-	echo We could not detect any processes for "node.exe" ^(Node.js^), which means that Wrapper: Offline is NOT running.
+	echo We could not detect any processes for "node.exe" ^(Node.js^), which means 
+	echo that Wrapper: Offline For Schools is NOT running.
 	echo:
 	echo To fix this, we'll be running "start_wrapper.bat".
 	pause
 	echo:
-	echo Starting Wrapper: Offline...
+	echo Starting Wrapper: Offline For Schools...
 	start ..\start_wrapper.bat
 	PING -n 4 127.0.0.1>nul
-	echo Wrapper: Offline successfully launched^!
+	echo Wrapper: Offline For Schools successfully launched^!
 	PING -n 6 127.0.0.1>nul
 	cls
 )
