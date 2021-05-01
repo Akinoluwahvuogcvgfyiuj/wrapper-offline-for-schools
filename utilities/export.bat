@@ -20,7 +20,7 @@ set OUTRO169=%CD%\misc\Outro16by9.ts
 set OUTRO149=%CD%\misc\Outro14by9.ts
 set VOLUME=1.5
 set OUTPUT_PATH=%CD%\renders
-set OUTPUT_FILENAME=Wrapper_Video_%date:~-4,4%-%date:~-7,2%-%date:~-10,2%T%time:~-11,2%-%time:~-8,2%-%time:~-5,2%Z
+set OUTPUT_FILENAME=WrapperSchools_Video_%date:~-4,4%-%date:~-7,2%-%date:~-10,2%T%time:~-11,2%-%time:~-8,2%-%time:~-5,2%Z
 set OUTPUT_FILE=%OUTPUT_FILENAME%.mp4
 SETLOCAL ENABLEDELAYEDEXPANSION
 set SUBSCRIPT=y
