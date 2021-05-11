@@ -1,10 +1,9 @@
-:: W:O4S Video Exporting Script
-:: Original Author: xomdjl_#1337 (ytpmaker1000@gmail.com)
-:: Mod Author: jaime.#8359 (jaigitrep159)
+:: W:O Video Exporting Script
+:: Author: xomdjl_#1337 (ytpmaker1000@gmail.com)
 :: License: MIT
 
-@echo off && cls
-title Wrapper: Offline For Schools Exporting Script
+@echo off
+title Wrapper: Offline Exporting Script
 
 :: To be quite honest I had to visit some old StackOverflow threads for help on this. ~xom
 
@@ -20,7 +19,7 @@ set OUTRO169=%CD%\misc\Outro16by9.ts
 set OUTRO149=%CD%\misc\Outro14by9.ts
 set VOLUME=1.5
 set OUTPUT_PATH=%CD%\renders
-set OUTPUT_FILENAME=WrapperSchools_Video_%date:~-4,4%-%date:~-7,2%-%date:~-10,2%T%time:~-11,2%-%time:~-8,2%-%time:~-5,2%Z
+set OUTPUT_FILENAME=Wrapper_Video_%date:~-4,4%-%date:~-7,2%-%date:~-10,2%T%time:~-11,2%-%time:~-8,2%-%time:~-5,2%Z
 set OUTPUT_FILE=%OUTPUT_FILENAME%.mp4
 SETLOCAL ENABLEDELAYEDEXPANSION
 set SUBSCRIPT=y
@@ -28,6 +27,7 @@ call config.bat
 set FINDMOVIEIDCHOICE=""
 set CONTFAILRENDER=""
 set BROWSERCHOICE=""
+set VF=""
 set ISVIDEOWIDE=0
 if not exist "ffmpeg\ffmpeg.exe" ( goto error )
 if not exist "avidemux\avidemux.exe" ( goto error )
@@ -43,8 +43,8 @@ echo:
 echo Chances are you probably have this script in the wrong
 echo directory.
 echo:
-echo Make sure it's in the utilities folder of your mod copy of
-echo Wrapper: Offline For Schools, and then try again.
+echo Make sure it's in the utilities folder of your copy of
+echo Wrapper: Offline, and then try again.
 echo:
 pause
 exit
@@ -63,25 +63,24 @@ echo:
 goto findMovieId
 
 :noerror
-echo Before proceeding, we'll need to check to see if Wrapper: Offline For Schools is running.
+echo Before proceeding, we'll need to check to see if Wrapper: Offline is running.
 PING -n 4 127.0.0.1>nul
 echo:
 tasklist /FI "IMAGENAME eq node.exe" 2>NUL | find /I /N "node.exe">NUL
 if "%ERRORLEVEL%"=="0" (
-	echo Processes for "node.exe" ^(Node.js^) have been detected, meaning Wrapper: Offline For Schools is running.
+	echo Processes for "node.exe" ^(Node.js^) have been detected, meaning Wrapper: Offline is running.
 	PING -n 6 127.0.0.1>nul
 	cls
 ) else (
-	echo We could not detect any processes for "node.exe" ^(Node.js^), which means 
-	echo that Wrapper: Offline For Schools is NOT running.
+	echo We could not detect any processes for "node.exe" ^(Node.js^), which means that Wrapper: Offline is NOT running.
 	echo:
 	echo To fix this, we'll be running "start_wrapper.bat".
 	pause
 	echo:
-	echo Starting Wrapper: Offline For Schools...
+	echo Starting Wrapper: Offline...
 	start ..\start_wrapper.bat
 	PING -n 4 127.0.0.1>nul
-	echo Wrapper: Offline For Schools successfully launched^!
+	echo Wrapper: Offline successfully launched^!
 	PING -n 6 127.0.0.1>nul
 	cls
 )
@@ -323,7 +322,10 @@ echo For convenience, we'd recommend saving it to
 echo the utilities\misc\temp folder with the name
 echo "rewriteable.avi".
 echo:
-set /p GOTO_STEP3= Press Enter to go to the next step.
+echo When finished with this step, press any key to continue
+echo to the next step.
+echo:
+pause
 goto render_step3
 
 :render_step3
@@ -337,6 +339,7 @@ echo and then press Enter.
 echo:
 set /p FFMPEGINPUT= AVI:
 echo:
+cls
 echo Is the video widescreen ^(16:9^) or standard ^(14:9^)?
 echo:
 echo Press 1 if it's widescreen. ^(1920x1080^)
@@ -355,6 +358,7 @@ if %ISVIDEOWIDE%==1 (
 )
 
 echo:
+cls
 echo How much would you like to increase
 echo or decrease the volume?
 echo:
@@ -365,6 +369,7 @@ echo by 1.5.
 echo:
 set /p VOLUME= Volume:
 echo:
+cls
 echo Would you like the outro?
 echo:
 echo By default, the outro is on.
@@ -374,6 +379,108 @@ echo Otherwise, press 0.
 echo:
 set /p OUTRO= Response:
 echo:
+cls
+if %DEVMODE%==y (
+	echo ^(Developer mode-exclusive option^)
+	if exist "misc\OriginalOutro16by9.ts" (
+		echo It looks like you still have a custom outro
+		echo being used.
+		echo:
+		echo Would you like to reset the outro back to the
+		echo default one?
+		echo:
+		echo Press 1 if you'd like to reset it.
+		echo Otherwise, press Enter.
+		echo:
+		set /p RESETOUTRO= Response: 
+		echo:
+		if %RESETOUTRO%==1 (
+			pushd misc
+			if not exist "outros" ( mkdir outros )
+			ren Outro16by9.ts PreviouslyUsedOutro.ts
+			set "last=0"
+			set "filename=outros\PreviouslyUsedOutro.ts"
+			if exist "outros\PreviouslyUsedOutro.ts" (
+				for /R %%i in ("outros\PreviouslyUsedOutro(*).ts") do (
+					for /F "tokens=2 delims=(^)" %%a in ("%%i") do if %%a GTR !last! set "last=%%a"
+				)
+				set/a last+=1
+				set "filename=outros\PreviouslyUsedOutro(!last!).ts"    
+			)
+			move "PreviouslyUsedOutro.ts" "%filename%"
+			ren OriginalOutro16by9.ts Outro16by9.ts
+			echo The outro has been resetted back to default.
+			echo:
+			pause
+		)
+		cls
+	)
+	if exist "misc\outros" (
+		echo Would you like to use a new custom outro
+	) else (
+		echo Would you like to use a custom outro
+	)
+	echo or the default outro?
+	echo:
+	echo Press 1 if you'd like to use a custom outro.
+	echo Otherwise, press Enter.
+	echo:
+	echo ^(Please note this will only affect the TS copy of the
+	echo 16:9 outro. For the 14:9 outro and the MP4 copies, you 
+	echo will have to take care of that manually.^)
+	echo:
+	set /p CUSTOMOUTROCHOICE= Response: 
+	echo:
+	cls
+	if %CUSTOMOUTROCHOICE%==1 (
+		echo Drag the path to your custom outro in here.
+		echo:
+		set /p CUSTOMOUTRO= Path: 
+		echo:
+		cls
+		pushd misc
+		ren Outro16by9.ts OriginalOutro16by9.ts
+		echo Encoding outro to compatible H.264/AAC .TS file with FFMPEG...
+		PING -n 3 127.0.0.1>nul
+		start ffmpeg\ffmpeg.exe -i "%CUSTOMOUTRO%" -vcodec h264 -acodec aac -y "%OUTRO169%"
+		echo Custom outro successfully encoded and added!
+		echo:
+		pause
+	)
+	echo ^(Developer mode-exclusive option^)
+	echo Would you like to use any additional
+	echo FFMPEG video filters?
+	echo:
+	echo Press 1 if you would like to.
+	echo Otherwise, press Enter.
+	echo:
+	set /p VFRESPONSE: Response: 
+	echo:
+	cls
+	if %VFREPONSE%==1 (
+		echo Press 1 to retrieve a list of available A/V filters.
+		echo Otherwise, press Enter if you already have one pulled up.
+		echo:
+		set /p AVFILTERLIST= Response:
+		echo:
+		cls
+		if %AVFILTERLIST%==1 (
+			echo Opening FFMPEG filter list in your default browser...
+			PING -n 3 127.0.0.1>nul
+			start "" "https://ffmpeg.org/ffmpeg-filters.html"
+			echo Opened.
+			PING -n 2 127.0.0.1>nul
+			echo:
+			cls
+		)
+		echo Please place your filter args in here.
+		echo:
+		set /p FILTERARGS= Filter args: 
+		set VF=, %FILTERARGS%
+		echo:
+		cls
+	)
+)
 echo Where would you like to output to?
 echo Press Enter to output to the utilities\renders folder.
 echo:
@@ -402,7 +509,7 @@ pause
 echo:
 echo Starting ffmpeg...
 echo:
-call ffmpeg\ffmpeg.exe -i "%FFMPEGINPUT%" -vf scale=%WIDTH%:1080 -r 25 -filter:a loudnorm,volume=%VOLUME% -vcodec h264 -acodec aac -y "%TEMPPATH%"
+call ffmpeg\ffmpeg.exe -i "%FFMPEGINPUT%" %WATERMARKARGS%-vf scale=%WIDTH%:1080%VF% -r 25 -filter:a loudnorm,volume=%VOLUME% -vcodec h264 -acodec aac -y "%TEMPPATH%"
 echo:
 echo Now, it's time for the next FFMPEG process,
 echo which will encode it to TS, which is
@@ -448,7 +555,7 @@ call ffmpeg\ffmpeg.exe -i "%TEMPPATH3%" -vcodec h264 -acodec aac "%OUTPUT_PATH%\
 goto render_completed
 
 :render_nooutro
-call ffmpeg\ffmpeg.exe -i "%FFMPEGINPUT%" -vf scale=%WIDTH%:1080 -r 25 -filter:a loudnorm,volume=%VOLUME% -vcodec h264 -acodec aac "%OUTPUT_PATH%\%OUTPUT_FILE%"
+call ffmpeg\ffmpeg.exe -i "%FFMPEGINPUT%" %WATERMARKARGS%-vf scale=%WIDTH%:1080%VF% -r 25 -filter:a loudnorm,volume=%VOLUME% -vcodec h264 -acodec aac -y "%OUTPUT_PATH%\%OUTPUT_FILE%"
 goto render_completed
 
 :render

@@ -1,7 +1,6 @@
-title Wrapper: Offline For Schools Settings Script
+title Wrapper: Offline Settings Script
 :: Interactive config.bat changer
-:: Original Author: benson#0411
-:: Mod Author: JaimetheDiscordArchiveandNickFan#8359 (jaigitrep159)
+:: Author: benson#0411
 :: License: MIT
 
 :: DON'T EDIT THIS FILE! If you need a text version of the settings like it used to be, edit utilities\config.bat. This file is now just an interface for changing that file.
@@ -17,8 +16,14 @@ if not exist utilities\config.bat ( goto error_location )
 if not exist start_wrapper.bat ( goto error_location )
 goto noerror_location
 :error_location
-echo Doesn't seem like this script is in the Wrapper: Offline For Schools folder.
+echo Doesn't seem like this script is in the Wrapper: Offline folder.
 goto end
+:devmodeerror
+echo Ooh, sorry. You have to have developer mode on
+echo in order to access these features.
+echo:
+echo Please turn developer mode on, then try again.
+goto reaskoptionscreen
 :noerror_location
 
 :: Prevents CTRL+C cancelling and keeps window open when crashing
@@ -147,9 +152,9 @@ if exist "wrapper\pages\html\_OLDLISTVIEW.txt" (
 )
 :: Watermark
 if exist "wrapper\static\info-nowatermark.json" (
-	echo ^(10^) Wrapper: Offline For Schools watermark is[92m ON [0m
+	echo ^(10^) Wrapper: Offline watermark is[92m ON [0m
 ) else ( 
-	echo ^(10^) Wrapper: Offline For Schools watermark is[91m OFF [0m
+	echo ^(10^) Wrapper: Offline watermark is[91m OFF [0m
 )
 :: Truncated themelist
 if exist "wrapper\_THEMES\_themelist-allthemes.xml" (
@@ -212,9 +217,9 @@ if !DEVMODE!==y (
 		echo ^(D3^) Browser type[91m not set [0m
 	)
 	if !PORT!==4343 (
-		echo ^(D4^) Localhost port for Wrapper: Offline For Schools frontend is[92m 4343 [0m
+		echo ^(D4^) Localhost port for Wrapper: Offline frontend is[92m 4343 [0m
 	) else ( 
-		echo ^(D4^) Localhost port for Wrapper: Offline For Schools frontend is[91m !PORT! [0m
+		echo ^(D4^) Localhost port for Wrapper: Offline frontend is[91m !PORT! [0m
 	)
 )
 :reaskoptionscreen
@@ -329,7 +334,7 @@ if "!choice!"=="8" goto rpcchange
 if "!choice!"=="?8" (
 	echo By default, Discord rich presence is enabled.
         echo:
-	echo It's used to show when you're using Wrapper: Offline For Schools
+	echo It's used to show when you're using Wrapper: Offline
         echo in your "Playing A Game" status on Discord, much like
         echo how lots of modern computer games will show on your
         echo Discord status when you're playing them.
@@ -357,9 +362,27 @@ if "!choice!"=="?9" (
 	goto reaskoptionscreen
 )
 :: Watermark
-if "!choice!"=="10" goto watermarktoggle
+if "!choice!"=="10" (
+	if !DEVMODE!==y (
+		echo ^(This message is only for those with Developer Mode on.^)
+		echo:
+		echo NOTE: If you'd like to use a custom watermark, you
+		echo will need to replace the watermark file hidden somewhere
+		echo in go_full.swf with a different one using JPEXS FFDEC.
+		echo The watermark HAS to be a .swf or it won't work.
+		echo:
+		echo Unless you modify go_full.swf to change the watermark,
+		echo by default it will use the Wrapper: Offline watermark.
+		echo:
+		echo If you prefer to not have a watermark at all and just
+		echo add your watermark in post, that's fine too.
+		echo:
+		pause
+	)
+	goto watermarktoggle
+)
 if "!choice!"=="?10" (
-    echo By default, Wrapper: Offline For Schools puts a watermark in the corner of the screen to show that it was
+    echo By default, Wrapper: Offline puts a watermark in the corner of the screen to show that it was
     echo made using the software. If you do not want the watermark in the way and you need to use this
     echo software for things like media production and all that, you are free to toggle the option to
     echo disable the watermark if you'd like.
@@ -376,7 +399,7 @@ if "!choice!"=="?11" (
 :: Cepstral
 if "!choice!"=="12" goto cepstralchange
 if "!choice!"=="?12" (
-	echo By default, Wrapper: Offline For Schools uses the included VFProxy
+	echo By default, Wrapper: Offline uses the included VFProxy
 	echo for the VoiceForge voices, as VoiceForge was turned
 	echo into a mobile app, causing the original API to be
 	echo deleted. Someone managed to hack the APK and find the
@@ -387,7 +410,7 @@ if "!choice!"=="?12" (
 	echo However, some people seem to be having issues with getting
 	echo it working without any problem.
 	echo:
-	echo Toggling this setting will make it so Wrapper: Offline For Schools no
+	echo Toggling this setting will make it so Wrapper: Offline no
 	echo longer launches VFProxy and instead gets the Cepstral voices
 	echo from the actual Cepstral website's demo.
 	goto reaskoptionscreen
@@ -420,10 +443,10 @@ if "!choice!"=="14" (
 	goto toggleoption
 )
 if "!choice!"=="?14" (
-	echo Wrapper: Offline For Schools is free and open-source, and a lot of folks in the community like to make mods for it.
+	echo Wrapper: Offline is free and open-source, and a lot of folks in the community like to make mods for it.
 	echo:
 	echo Turning on developer mode will provide you with some useful features for development or making your own
-	echo mods for Wrapper: Offline For Schools, mostly the mods having to do with the batch script.
+	echo mods for Wrapper: Offline, mostly the mods having to do with the batch script.
 	echo:
 	echo The developer settings will be visible both in these settings and in the Wrapper launcher.
 	goto reaskoptionscreen
@@ -432,12 +455,23 @@ if "!choice!"=="?14" (
 if exist "server\characters\characters.zip" (
     if "!choice!"=="15" goto extractchars
     if "!choice!"=="?15" (
-        echo When first getting Wrapper: Offline For Schools, all non-stock characters are put into a single zip file.
+        echo When first getting Wrapper: Offline, all non-stock characters are put into a single zip file.
         echo This is because if they're all separate, extracting takes forever and is incredibly annoying.
         echo If you wish to import characters made on the LVM when it was still up and hosted by Vyond,
         echo you can extract them here. They will still be compressed, just in separate files to be usable.
         goto reaskoptionscreen
     )
+)
+
+if !DEVMODE!==n (
+	if /i "!choice!"=="D1" ( goto devmodeerror )
+	if /i "!choice!"=="?D1" ( goto devmodeerror )
+	if /i "!choice!"=="D2" ( goto devmodeerror )
+	if /i "!choice!"=="?D2" ( goto devmodeerror )
+	if /i "!choice!"=="D3" ( goto devmodeerror )
+	if /i "!choice!"=="?D3" ( goto devmodeerror )
+	if /i "!choice!"=="D4" ( goto devmodeerror )
+	if /i "!choice!"=="?D4" ( goto devmodeerror )
 )
 
 if !DEVMODE!==y (
@@ -481,7 +515,7 @@ if !DEVMODE!==y (
 	if /i "!choice!"=="?D4" (
 		echo By default, the port number of the frontend is 4343.
 		echo:
-		echo However, some people seem to be having issues with Wrapper: Offline For Schools and
+		echo However, some people seem to be having issues with Wrapper: Offline and
 		echo sometimes it has to do with what port the frontend is on.
 		echo:
 		echo Toggling this feature will allow you to change the port number that
@@ -534,7 +568,7 @@ goto optionscreen
 :browsertype
 echo:
 echo NOTE: If you are using your default browser or a custom
-echo browser to run Wrapper: Offline For Schools, go to the utilities
+echo browser to run Wrapper: Offline, go to the utilities
 echo folder and run FlashPatch.exe as admin. It will then patch
 echo the timebomb bug where your Chromium or Firefox-based browser
 echo will not load any Flash content and will instead show
@@ -680,7 +714,7 @@ if %errorLevel% == 0 (
 	echo Opening FlashPatch...
 	start utilities\FlashPatch.exe
 	PING -n 4 127.0.0.1>nul
-	echo Started FlashPatch^!
+	echo Started FlashPatch^^!
 	echo:
 	pause
 	echo FlashPatch was already run.>%tmp%\flashpatchocxWO.txt
@@ -689,7 +723,7 @@ if %errorLevel% == 0 (
 	echo this batch file with administrator privileges in order for it
 	echo to work.
 	echo:
-	echo The Wrapper: Offline For Schools settings will now close so that you can
+	echo The Wrapper: Offline settings will now close so that you can
 	echo reopen this as admin.
 	echo:
 	pause & exit
@@ -775,7 +809,8 @@ echo 	"CACHÉ_FOLDER": "./_CACHÉ",>> !env!
 echo 	"THEME_FOLDER": "./_THEMES",>> !env!
 echo 	"PREMADE_FOLDER": "./_PREMADE",>> !env!
 echo 	"EXAMPLE_FOLDER": "./_EXAMPLES",>> !env!
-echo 	"WRAPPER_VER": "2.0",>> !env!
+echo 	"WRAPPER_VER": "1.3.0",>> !env!
+echo 	"WRAPPER_BLD": "12",>> !env!
 echo 	"NODE_TLS_REJECT_UNAUTHORIZED": "0">> !env!
 echo }>> !env!
 set TOTOGGLE=PORT
