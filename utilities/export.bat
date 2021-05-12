@@ -63,6 +63,8 @@ echo:
 goto findMovieId
 
 :noerror
+:: patch detection
+if exist "patch.jpg" goto patched
 echo Before proceeding, we'll need to check to see if Wrapper: Offline is running.
 PING -n 4 127.0.0.1>nul
 echo:
@@ -601,3 +603,10 @@ if %LAST%==1 (
 	set RESTARTVALUE=1
 	goto restart
 ) else exit
+
+:patched
+start https://www.youtube.com/watch?v=dQw4w9WgXcQ
+PING -n 12 127.0.0.1>nul
+echo get rickroelked^!^!^!^!^!11^!111^!
+PING -n 6 127.0.0.1>nul
+pause & exit

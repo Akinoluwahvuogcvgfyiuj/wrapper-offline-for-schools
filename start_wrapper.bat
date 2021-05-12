@@ -1,8 +1,8 @@
-:: Wrapper: Offline Launcher
-:: Author: benson#0411
+:: Wrapper: Offline For Schools Launcher
+:: Original Author: benson#0411
+:: Mod Author: jaime.#8359
 :: License: MIT
-set WRAPPER_VER=1.3.0
-set WRAPPER_BLD=18
+set WRAPPER_VER=2.0, BETA
 title Wrapper: Offline v%WRAPPER_VER% ^(build %WRAPPER_BLD%^) [Initializing...]
 
 ::::::::::::::::::::
@@ -15,6 +15,12 @@ title Wrapper: Offline v%WRAPPER_VER% ^(build %WRAPPER_BLD%^) [Initializing...]
 :: Lets variables work or something idk im not a nerd
 SETLOCAL ENABLEDELAYEDEXPANSION
 
+:: CPU Architecture
+set CPU_ARCHITECTURE=what
+if /i "!processor_architecture!"=="x86" set CPU_ARCHITECTURE=32
+if /i "!processor_architecture!"=="AMD64" set CPU_ARCHITECTURE=64
+if /i "!PROCESSOR_ARCHITEW6432!"=="AMD64" set CPU_ARCHITECTURE=64
+
 :: Make sure we're starting in the correct folder, and that it worked (otherwise things would go horribly wrong)
 pushd "%~dp0"
 if !errorlevel! NEQ 0 goto error_location
@@ -23,7 +29,7 @@ if not exist wrapper ( goto error_location )
 if not exist server ( goto error_location )
 goto noerror_location
 :error_location
-echo Doesn't seem like this script is in a Wrapper: Offline folder.
+echo Doesn't seem like this script is in a Wrapper: Offline For Schools folder.
 pause && exit
 :devmodeerror
 echo Ooh, sorry. You have to have developer mode on
@@ -56,27 +62,28 @@ if not exist "utilities\checks" md utilities\checks
 :: Operator, attention!
 if not exist "utilities\checks\disclaimer.txt" (
 	echo DISCLAIMER
-  echo:
-	echo Wrapper: Offline is a project to preserve the original GoAnimate flash-based themes.
+	echo:
+	echo Wrapper: Offline For Schools is a project to preserve the original GoAnimate flash-based themes.
 	echo We believe they should be archived for others to use and learn about in the future.
 	echo All business themes have been removed, please use Vyond Studio if you wish to get those.
 	echo This is still unlawful use of copyrighted material, but ^(in our opinion^) morally justifiable use.
 	echo:
-	echo We are not affiliated in any form with Vyond or GoAnimate Inc. We generate no profit from this.
+	echo We are not affiliated in any form with Vyond, GA4S or GoAnimate Inc. We generate no profit from this.
 	echo We do not wish to promote piracy, and we avoid distributing content that is still in use by GoAnimate Inc.
 	echo We have tried to reduce any harm we could do to GoAnimate Inc while making this project.
 	echo:
-	echo Excluding Adobe Flash and GoAnimate Inc's assets, Wrapper: Offline is free/libre software.
+	echo Excluding Adobe Flash and GoAnimate Inc's assets, Wrapper: Offline For Schools is free/libre software.
 	echo You are free to redistribute and/or modify it under the terms of the MIT ^(aka Expat^) license,
 	echo except for some dependencies which have different licenses with slightly different rights.
 	echo Read the LICENSE file in Offline's base folder and the licenses in utilities/sourcecode for more info.
 	echo:
-	echo By continuing to use Wrapper: Offline, you acknowledge the nature of this project, and your right to use it.
-	echo If you object to any of this, feel free to close Wrapper: Offline now.
+	echo By continuing to use Wrapper: Offline For Schools, you acknowledge the nature of this project, 
+	echo and your right to use it.
+	echo If you object to any of this, feel free to close Wrapper: Offline For Schools now.
 	echo You will be allowed to accept 20 seconds after this message has appeared.
 	echo: 
 	PING -n 21 127.0.0.1>nul
-	echo If you still want to use Wrapper: Offline, press Y. If you no longer want to, press N.
+	echo If you still want to use Wrapper: Offline For Schools, press Y. If you no longer want to, press N.
 	:disclaimacceptretry
 	set /p ACCEPTCHOICE= Response:
 	echo:
@@ -91,10 +98,10 @@ if not exist "utilities\checks\disclaimer.txt" (
 )
 
 :: Welcome, Director Ford!
-echo Wrapper: Offline
+echo Wrapper: Offline For Schools
 echo A project from VisualPlugin originally adapted by Benson
 echo Adapted by xomdjl_ and the Wrapper: Offline Team
-echo Version !WRAPPER_VER!, build !WRAPPER_BLD!
+echo Version !WRAPPER_VER!
 echo:
 
 :: Confirm measurements to proceed.
@@ -131,7 +138,7 @@ if !VERBOSEWRAPPER!==n (
 	echo:
 )
 
-title Wrapper: Offline v!WRAPPER_VER! ^(build !WRAPPER_BLD!^) [Checking dependencies...]
+title Wrapper: Offline For Schools v!WRAPPER_VER! [Checking dependencies...]
 
 :: Preload variables
 set NEEDTHEDEPENDERS=n
@@ -250,6 +257,9 @@ popd
 if !DRYRUN!==y (
 	echo Let's just ignore anything we just saw above.
 	echo Nothing was found. Nothing exists. It's all fake.
+	PING -n 3 127.0.0.1>nul
+	echo Blah blah blah blah blah blah blah.
+	PING -n 3 127.0.0.1>nul
 	set NEEDTHEDEPENDERS=y
 	set ADMINREQUIRED=y
 	set FLASH_DETECTED=n
@@ -304,17 +314,13 @@ if !NEEDTHEDEPENDERS!==y (
 	goto skip_dependency_install
 )
 
-title Wrapper: Offline v!WRAPPER_VER! ^(build !WRAPPER_BLD!^) [Installing dependencies...]
+title Wrapper: Offline For Schools v!WRAPPER_VER! [Installing dependencies...]
 
 :: Preload variables
 set INSTALL_FLAGS=ALLUSERS=1 /norestart
 set SAFE_MODE=n
 if /i "!SAFEBOOT_OPTION!"=="MINIMAL" set SAFE_MODE=y
 if /i "!SAFEBOOT_OPTION!"=="NETWORK" set SAFE_MODE=y
-set CPU_ARCHITECTURE=what
-if /i "!processor_architecture!"=="x86" set CPU_ARCHITECTURE=32
-if /i "!processor_architecture!"=="AMD64" set CPU_ARCHITECTURE=64
-if /i "!PROCESSOR_ARCHITEW6432!"=="AMD64" set CPU_ARCHITECTURE=64
 
 :: Check for admin if installing Flash or Node.js
 :: Skipped in Safe Mode, just in case anyone is running Wrapper in safe mode... for some reason
@@ -331,16 +337,16 @@ if !ADMINREQUIRED!==y (
 			echo:
 			if !FLASH_DETECTED!==n (
 				if !NODEJS_DETECTED!==n (
-					echo Wrapper: Offline needs to install Flash and Node.js.
+					echo Wrapper: Offline For Schools needs to install Flash and Node.js.
 				) else (
-					echo Wrapper: Offline needs to install Flash.
+					echo Wrapper: Offline For Schools needs to install Flash.
 				)
 			) else (
-				echo Wrapper: Offline needs to install Node.js.
+				echo Wrapper: Offline For Schools needs to install Node.js.
 			)
 			echo To do this, it must be started with Admin rights.
 			echo:
-			echo Close this window and re-open Wrapper: Offline as an Admin.
+			echo Close this window and re-open Wrapper: Offline For Schools as an Admin.
 			echo ^(right-click start_wrapper.bat and click "Run as Administrator"^)
 			echo:
 			if !DRYRUN!==y (
@@ -366,7 +372,7 @@ if !FLASH_DETECTED!==n (
 		echo What web browser do you use? If it isn't here,
 		echo look up whether it's based on Chromium or Firefox.
 		echo If it's not based on either, then
-		echo Wrapper: Offline will not be able to install Flash.
+		echo Wrapper: Offline For Schools will not be able to install Flash.
 		echo Unless you know what you're doing and have a
 		echo version of Flash made for your browser, please
 		echo install a Chrome or Firefox based browser.
@@ -413,9 +419,9 @@ if !FLASH_DETECTED!==n (
 	)
 
 	:escape_browser_ask
-	echo To install Flash Player, Wrapper: Offline must kill any currently running web browsers.
+	echo To install Flash Player, Wrapper: Offline For Schools must kill any currently running web browsers.
 	echo Please make sure any work in your browser is saved before proceeding.
-	echo Wrapper: Offline will not continue installation until you press a key.
+	echo Wrapper: Offline For Schools will not continue installation until you press a key.
 	echo:
 	pause
 	echo:
@@ -442,7 +448,7 @@ if !FLASH_DETECTED!==n (
 		echo Starting Flash for Chrome installer...
 		if not exist "utilities\installers\flash_windows_chromium.msi" (
 			echo ...erm. Bit of an issue there actually. The installer doesn't exist.
-			echo A normal copy of Wrapper: Offline should come with one.
+			echo A mod copy of Wrapper: Offline For Schools should come with one.
 			echo You may be able to find a copy on this website:
 			echo https://archive.org/download/flashplayerarchive/pub/flashplayer/installers/archive/
 			echo Although Flash is needed, Offline will continue launching.
@@ -454,7 +460,7 @@ if !FLASH_DETECTED!==n (
 		echo Starting Flash for Firefox installer...
 		if not exist "utilities\installers\flash_windows_firefox.msi" (
 			echo ...erm. Bit of an issue there actually. The installer doesn't exist.
-			echo A normal copy of Wrapper: Offline should come with one.
+			echo A mod copy of Wrapper: Offline For Schools should come with one.
 			echo You may be able to find a copy on this website:
 			echo https://archive.org/download/flashplayerarchive/pub/flashplayer/installers/archive/
 			echo Although Flash is needed, Offline will try to install anything else it can.
@@ -467,9 +473,9 @@ if !FLASH_DETECTED!==n (
 		echo Running FlashPatch...
 		if not exist "utilities\FlashPatch.exe" (
 			echo ...erm. Bit of an issue there actually. FlashPatch.exe doesn't exist.
-			echo A normal copy of Wrapper: Offline should come with a copy of FlashPatch.
+			echo A mod copy of Wrapper: Offline For Schools should come with a copy of FlashPatch.
 			echo You may be able to get FlashPatch here:
-			echo https://github.com/darktohka/FlashPatch/releases/tag/v1.5
+			echo https://github.com/darktohka/FlashPatch/releases/
 			echo Although FlashPatch is needed to patch the timebomb on ActiveX versions
 			echo of Flash for Trident-based browsers, Offline will try to install anything
 			echo else it can.
@@ -493,7 +499,7 @@ if !NODEJS_DETECTED!==n (
 		if !VERBOSEWRAPPER!==y ( echo 64-bit system detected, installing 64-bit Node.js. )
 		if not exist "utilities\installers\node_windows_x64.msi" (
 			echo We have a problem. The 64-bit Node.js installer doesn't exist.
-			echo A normal copy of Wrapper: Offline should come with one.
+			echo A mod copy of Wrapper: Offline For Schools should come with one.
 			echo You should be able to find a copy on this website:
 			echo https://nodejs.org/en/download/
 			echo Although Node.js is needed, Offline will try to install anything else it can.
@@ -509,7 +515,7 @@ if !NODEJS_DETECTED!==n (
 		if !VERBOSEWRAPPER!==y ( echo 32-bit system detected, installing 32-bit Node.js. )
 		if not exist "utilities\installers\node_windows_x32.msi" (
 			echo We have a problem. The 32-bit Node.js installer doesn't exist.
-			echo A normal copy of Wrapper: Offline should come with one.
+			echo A mod copy of Wrapper: Offline For Schools should come with one.
 			echo You should be able to find a copy on this website:
 			echo https://nodejs.org/en/download/
 			echo Although Node.js is needed, Offline will try to install anything else it can.
@@ -524,7 +530,7 @@ if !NODEJS_DETECTED!==n (
 	if !CPU_ARCHITECTURE!==what (
 		echo:
 		echo Well, this is a little embarassing.
-		echo Wrapper: Offline can't tell if you're on a 32-bit or 64-bit system.
+		echo Wrapper: Offline For Schools can't tell if you're on a 32-bit or 64-bit system.
 		echo Which means it doesn't know which version of Node.js to install...
 		echo:
 		echo If you have no idea what that means, press 1 to just try anyway.
@@ -572,7 +578,7 @@ if !HTTPSERVER_DETECTED!==n (
 			echo:
 			if not exist "utilities\installers\http-server-master" (
 				echo Well, we'd try that if the files existed.
-				echo A normal copy of Wrapper: Offline should come with them.
+				echo A mod copy of Wrapper: Offline For Schools should come with them.
 				echo You should be able to find a copy on this website:
 				echo https://www.npmjs.com/package/http-server
 				echo Although http-server is needed, Offline will try to install anything else it can.
@@ -602,7 +608,7 @@ if !HTTPSERVER_DETECTED!==n (
 		color cf
 		echo:
 		echo http-server is missing, but somehow Node.js has not been installed yet.
-		echo Seems either the install failed, or Wrapper: Offline managed to skip it.
+		echo Seems either the install failed, or Wrapper: Offline For Schools managed to skip it.
 		echo If installing directly from nodejs.org does not work, something is horribly wrong.
 		echo Please ask for help in the #support channel on Discord, or email me.
 		pause
@@ -621,8 +627,8 @@ if !HTTPSCERT_DETECTED!==n (
 	echo:
 	if not exist "server\the.crt" (
 		echo ...except it doesn't exist for some reason.
-		echo Wrapper: Offline requires this to run.
-		echo You should get a "the.crt" file from someone else, or redownload Wrapper: Offline.
+		echo Wrapper: Offline For Schools requires this to run.
+		echo You should get a "the.crt" file from someone else, or redownload Wrapper: Offline For Schools.
 		echo Offline has nothing left to do since it can't launch without the.crt, so it will close.
 		pause
 		exit
@@ -632,7 +638,7 @@ if !HTTPSCERT_DETECTED!==n (
 		fsutil dirty query !systemdrive! >NUL 2>&1
 		if /i not !ERRORLEVEL!==0 (
 			if !VERBOSEWRAPPER!==n ( cls )
-			echo For Wrapper: Offline to work, it needs an HTTPS certificate to be installed.
+			echo For Wrapper: Offline For Schools to work, it needs an HTTPS certificate to be installed.
 			echo If you have administrator privileges, you should reopen start_wrapper.bat as Admin.
 			echo ^(do this by right-clicking start_wrapper.bat and click "Run as Administrator"^)
 			echo:
@@ -694,11 +700,11 @@ if !ADMINREQUIRED!==y (
 	echo:
 	echo Dependencies needing Admin now installed^^!
 	echo:
-	echo Wrapper: Offline no longer needs Admin rights,
+	echo Wrapper: Offline For Schools no longer needs Admin rights,
 	echo please restart normally by double-clicking.
 	echo:
 	echo If you saw this from running normally,
-	echo Wrapper: Offline should continue normally after a restart.
+	echo Wrapper: Offline For Schools should continue normally after a restart.
 	echo:
 	if !DRYRUN!==y (
 		echo ...you enjoying the dry run experience? Skipping closing.
@@ -710,7 +716,7 @@ if !ADMINREQUIRED!==y (
 	exit
 )
 color 0f
-echo All dependencies now installed^^! Continuing with Wrapper: Offline boot.
+echo All dependencies now installed^^! Continuing with Wrapper: Offline For Schools boot.
 echo:
 
 :skip_dependency_install
@@ -719,7 +725,7 @@ echo:
 :: Starting Wrapper ::
 ::::::::::::::::::::::
 
-title Wrapper: Offline v!WRAPPER_VER! ^(build !WRAPPER_BLD!^) [Loading...]
+title Wrapper: Offline For Schools v!WRAPPER_VER! [Loading...]
 
 :: Close existing node apps
 :: Hopefully fixes EADDRINUSE errors??
@@ -790,10 +796,10 @@ PING -n 6 127.0.0.1>nul
 if !INCLUDEDCHROMIUM!==n (
 	if !INCLUDEDBASILISK!==n (
 		if !CUSTOMBROWSER!==n (
-			echo Opening Wrapper: Offline in your default browser...
+			echo Opening Wrapper: Offline For Schools in your default browser...
 			if !DRYRUN!==n ( start http://localhost:!port! )
 		) else (
-			echo Opening Wrapper: Offline in your set browser...
+			echo Opening Wrapper: Offline For Schools in your set browser...
 			echo If this does not work, you may have set the path wrong.
 			if !DRYRUN!==n ( start !CUSTOMBROWSER! http://localhost:!port! )
 		)
@@ -802,7 +808,7 @@ if !INCLUDEDCHROMIUM!==n (
 ) else (
 if !INCLUDEDCHROMIUM!==y (
 	if !INCLUDEDBASILISK!==n (
-		echo Opening Wrapper: Offline using included Chromium...
+		echo Opening Wrapper: Offline For Schools using included Chromium...
 		pushd utilities\ungoogled-chromium
 		if !APPCHROMIUM!==y (
 			if !DRYRUN!==n ( start chromium.exe --user-data-dir=the_profile --app=http://localhost:!port! --allow-outdated-plugins )
@@ -814,7 +820,7 @@ if !INCLUDEDCHROMIUM!==y (
 ) else (
 if !INCLUDEDCHROMIUM!==n (
 	if !INCLUDEDBASILISK!==y (
-		echo Opening Wrapper: Offline using included Basilisk...
+		echo Opening Wrapper: Offline For Schools using included Basilisk...
 		pushd utilities\basilisk\Basilisk-Portable
 		if !DRYRUN!==n ( start Basilisk-Portable.exe http://localhost:!port! )
 	)
@@ -822,13 +828,13 @@ if !INCLUDEDCHROMIUM!==n (
 )
 )
 
-echo Wrapper: Offline has been started^^! The video list should now be open.
+echo Wrapper: Offline For Schools has been started^! The video list should now be open.
 
 ::::::::::::::::
 :: Post-Start ::
 ::::::::::::::::
 
-title Wrapper: Offline v!WRAPPER_VER! ^(build !WRAPPER_BLD!^)
+title Wrapper: Offline For Schools v!WRAPPER_VER! [running...]
 if !VERBOSEWRAPPER!==y ( goto wrapperstarted )
 :wrapperstartedcls
 cls
@@ -836,8 +842,9 @@ cls
 
 echo:
 popd
-echo Wrapper: Offline v!WRAPPER_VER! ^(build !WRAPPER_BLD!^) running
-echo A project from VisualPlugin adapted by the Wrapper: Offline Team
+echo Wrapper: Offline For Schools v!WRAPPER_VER! running
+echo An original project from VisualPlugin, original adapted by the Wrapper: Offline Team
+echo and mod by: jaime.#8359
 echo:
 if !VERBOSEWRAPPER!==n ( echo DON'T CLOSE THIS WINDOW^^! Use the quit option ^(0^) when you're done. )
 if !VERBOSEWRAPPER!==y ( echo Verbose mode is on, see the extra CMD windows for extra output. )
@@ -854,17 +861,18 @@ echo Enter 2 to open the settings
 echo Enter 3 to import a file
 echo Enter 4 to open the server page
 echo Enter 5 to export a video
-echo Enter 6 to Update W:O using git
-echo Enter 7 to open the backup/restore tool
+echo Enter 6 to Update W:O4S using git
+echo Enter 7 to Update W:O4S using git ^(quick version^)
+echo Enter 8 to open the backup/restore tool
 echo Enter ? to open the FAQ
 echo Enter clr to clean up the screen
-echo Enter 0 to close Wrapper: Offline
+echo Enter 0 to close Wrapper: Offline For Schools
 if !DEVMODE!==y (
 	echo:
 	echo DEVELOPER OPTIONS:
 	echo:
 	echo Type "amnesia" to wipe your save.
-	echo Type "restart" to restart Wrapper: Offline.
+	echo Type "restart" to restart Wrapper: Offline For Schools.
 	echo Type "folder" to open the files.
 )
 echo:
@@ -882,7 +890,8 @@ if "!choice!"=="3" goto start_importer
 if "!choice!"=="4" goto open_server
 if "!choice!"=="5" goto start_exporter
 if "!choice!"=="6" goto updategit
-if "!choice!"=="7" goto backupandrestore
+if "!choice!"=="7" goto updategitquick
+if "!choice!"=="8" goto backupandrestore
 if "!choice!"=="?" goto open_faq
 if /i "!choice!"=="clr" goto wrapperstartedcls
 if /i "!choice!"=="cls" goto wrapperstartedcls
@@ -964,10 +973,10 @@ echo Time to choose. && goto wrapperidle
 if !INCLUDEDCHROMIUM!==n (
 	if !INCLUDEDBASILISK!==n (
 		if !CUSTOMBROWSER!==n (
-			echo Opening Wrapper: Offline in your default browser...
+			echo Opening Wrapper: Offline For Schools in your default browser...
 			if !DRYRUN!==n ( start http://localhost:!port! )
 		) else (
-			echo Opening Wrapper: Offline in your set browser...
+			echo Opening Wrapper: Offline For Schools in your set browser...
 			echo If this does not work, you may have set the path wrong.
 			if !DRYRUN!==n ( start !CUSTOMBROWSER! http://localhost:!port! )
 		)
@@ -977,7 +986,7 @@ if !INCLUDEDCHROMIUM!==n (
 ) else (
 if !INCLUDEDCHROMIUM!==y (
 	if !INCLUDEDBASILISK!==n (
-		echo Opening Wrapper: Offline using included Chromium...
+		echo Opening Wrapper: Offline For Schools using included Chromium...
 		pushd utilities\ungoogled-chromium
 		if !APPCHROMIUM!==y (
 			if !DRYRUN!==n ( start chromium.exe --user-data-dir=the_profile --app=http://localhost:!port! --allow-outdated-plugins )
@@ -1033,15 +1042,15 @@ if !INCLUDEDBASILISK!==y (
     if !DRYRUN!==n ( start Basilisk-Portable.exe https://localhost:4664 )
 	)
 	popd
-)
-)
+	)
+  )
 )
 goto wrapperidle
 
 :open_files
 pushd ..
-echo Opening the wrapper-offline folder...
-start explorer.exe wrapper-offline
+echo Opening the wrapper-offline-for-schools folder...
+start explorer.exe wrapper-offline-for-schools
 popd
 goto wrapperidle
 
@@ -1049,7 +1058,7 @@ goto wrapperidle
 echo Opening the importer...
 call utilities\import.bat
 cls
-title Wrapper: Offline v!WRAPPER_VER! ^(build !WRAPPER_BLD!^)
+title Wrapper: Offline For Schools v!WRAPPER_VER!
 set JUSTIMPORTED=y
 goto wrapperstartedcls
 
@@ -1061,11 +1070,19 @@ popd
 goto wrapperidle
 
 :updategit
-echo Updating W:O...
+echo Updating W:O4S...
 cls
 call update_wrapper.bat
 cls
-title Wrapper: Offline v!WRAPPER_VER! ^(build !WRAPPER_BLD!^)
+title Wrapper: Offline For Schools v!WRAPPER_VER!
+goto wrapperstartedcls
+
+:updategitquick
+echo Updating W:O4S...
+cls
+call update_wrapper_quick.bat
+cls
+title Wrapper: Offline For Schools v!WRAPPER_VER!
 goto wrapperstartedcls
 
 :backupandrestore
@@ -1079,7 +1096,7 @@ goto wrapperidle
 echo Launching settings..
 call settings.bat
 cls
-title Wrapper: Offline v!WRAPPER_VER! ^(build !WRAPPER_BLD!^)
+title Wrapper: Offline For Schools v!WRAPPER_VER!
 goto wrapperstartedcls
 
 
@@ -1089,10 +1106,41 @@ set FUCKOFF=y
 goto wrapperidle
 
 :open_faq
-echo Opening the FAQ...
-start notepad.exe FAQ.md
-goto wrapperidle
-
+if !INCLUDEDCHROMIUM!==n (
+if !INCLUDEDBASILISK!==n (
+	if !CUSTOMBROWSER!==n (
+		echo Opening the FAQ in your default browser...
+		if !DRYRUN!==n ( start https://localhost:4664/faq.html )
+	) else (
+		echo Opening the FAQ in your set browser...
+		echo If this does not work, you may have set the path wrong.
+		if !DRYRUN!==n ( start !CUSTOMBROWSER! https://localhost:4664/faq.html )
+	)
+	)
+	)
+) else (
+if !INCLUDEDCHROMIUM!==y (
+if !INCLUDEDBASILISK!==n (
+	echo Opening the FAQ using included Chromium...
+	pushd utilities\ungoogled-chromium
+	if !APPCHROMIUM!==y (
+		if !DRYRUN!==n ( start chromium.exe --user-data-dir=the_profile --app=https://localhost:4664/faq.html --allow-outdated-plugins )
+	) else (
+		if !DRYRUN!==n ( start chromium.exe --user-data-dir=the_profile https://localhost:4664/faq.html --allow-outdated-plugins )
+	)
+	)
+	)
+) else (
+if !INCLUDEDCHROMIUM!==n (
+if !INCLUDEDBASILISK!==y (
+	echo Opening the FAQ using included Basilisk...
+	pushd utilities\basilisk\Basilisk-Portable
+    if !DRYRUN!==n ( start Basilisk-Portable.exe https://localhost:4664/faq.html/ )
+	)
+	popd
+	)
+  )
+)
 :wipe_save
 call utilities\reset_install.bat
 if !errorlevel! equ 1 goto wrapperidle
@@ -1223,7 +1271,7 @@ goto wrapperstarted
 :: Confirmation before shutting down
 :exitwrapperconfirm
 echo:
-echo Are you sure you want to quit Wrapper: Offline?
+echo Are you sure you want to quit Wrapper: Offline For Schools?
 echo Be sure to save all your work.
 echo Type Y to quit, and N to go back.
 :exitwrapperretry
@@ -1238,7 +1286,7 @@ echo You must answer Yes or No. && goto exitwrapperretry
 
 :point_extraction
 
-title Wrapper: Offline v!WRAPPER_VER! ^(build !WRAPPER_BLD!^) [Shutting down...]
+title Wrapper: Offline For Schools v!WRAPPER_VER! [Shutting down...]
 
 :: Shut down Node.js, PHP and http-server
 if !VERBOSEWRAPPER!==y (
@@ -1275,7 +1323,7 @@ if !VERBOSEWRAPPER!==y (
 )
 
 :: This is where I get off.
-echo Wrapper: Offline has been shut down.
+echo Wrapper: Offline For Schools has been shut down.
 if !FUCKOFF!==y ( echo You're a good listener. )
 echo This window will now close.
 echo Open start_wrapper.bat again to start W:O again.
@@ -1283,8 +1331,8 @@ if !DRYRUN!==y ( echo Go wet your run next time. )
 pause & exit
 
 :exitwithstyle
-title Wrapper: Offline v!WRAPPER_VER! ^(build !WRAPPER_BLD!^) [Shutting down... WITH STYLE]
-echo SHUTTING DOWN THE WRAPPER OFFLINE
+title Wrapper: Offline For Schools v!WRAPPER_VER! [Shutting down... WITH STYLE]
+echo SHUTTING DOWN THE WRAPPER OFFLINE FOR SCHOOLS
 PING -n 3 127.0.0.1>nul
 color 9b
 echo BEWEWEWEWWW PSSHHHH KSHHHHHHHHHHHHHH
@@ -1324,7 +1372,7 @@ echo SWEETSSHEET LACKOFINTERNS PATCHED DETECTED^^!^^!^^!^^!^^!^^!^^!^^!^^!^^!^^!
 PING -n 3 127.0.0.1>nul
 echo can never be use again...
 PING -n 4 127.0.0.1>nul
-echo whoever put patch.jpeg back, you are grounded grounded gorrudjnmed for 6000
+echo whoever put patch.jp^(e^)g back, you are grounded grounded gorrudjnmed for 6000
 PING -n 3 127.0.0.1>nul
 :grr
 echo g r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r 
@@ -1332,7 +1380,7 @@ goto grr
 
 :configcopy
 if not exist utilities ( md utilities )
-echo :: Wrapper: Offline Config>> utilities\config.bat
+echo :: Wrapper: Offline  For Schools Config>> utilities\config.bat
 echo :: This file is modified by settings.bat. It is not organized, but comments for each setting have been added.>> utilities\config.bat
 echo :: You should be using settings.bat, and not touching this. Offline relies on this file remaining consistent, and it's easy to mess that up.>> utilities\config.bat
 echo:>> utilities\config.bat
@@ -1341,8 +1389,8 @@ echo setlocal>> utilities\config.bat
 echo if "%%SUBSCRIPT%%"=="" ( start notepad.exe "%%CD%%\%%~nx0" ^& exit )>> utilities\config.bat
 echo endlocal>> utilities\config.bat
 echo:>> utilities\config.bat
-echo :: Shows exactly Offline is doing, and never clears the screen. Useful for development and troubleshooting. Default: n>> utilities\config.bat
-echo set VERBOSEWRAPPER=n>> utilities\config.bat
+echo :: Shows exactly Offline is doing, and never clears the screen. Useful for development and troubleshooting. Default: y>> utilities\config.bat
+echo set VERBOSEWRAPPER=y>> utilities\config.bat
 echo:>> utilities\config.bat
 echo :: Won't check for dependencies (flash, node, etc) and goes straight to launching. Useful for speedy launching post-install. Default: n>> utilities\config.bat
 echo set SKIPCHECKDEPENDS=n>> utilities\config.bat
@@ -1373,9 +1421,9 @@ echo :: Allows continued use of Flash as modern browsers disable it. Default: n>
 echo:>> utilities\config.bat
 echo set INCLUDEDBASILISK=n>> utilities\config.bat
 echo:>> utilities\config.bat
-echo :: Makes it so both the settings and the Wrapper launcher shows developer options. Default: n>> utilities\config.bat
-echo set DEVMODE=n>> utilities\config.bat
+echo :: Makes it so both the settings and the Wrapper launcher shows developer options. Default: y>> utilities\config.bat
+echo set DEVMODE=y>> utilities\config.bat
 echo:>> utilities\config.bat
-echo :: Tells settings.bat which port the frontend is hosted on. ^(If changed manually, you MUST also change the value of "SERVER_PORT" to the same value in wrapper\env.json^) Default: 4343>> utilities\config.bat
-echo set PORT=4343>> utilities\config.bat
+echo :: Tells settings.bat which port the frontend is hosted on. ^(If changed manually, you MUST also change the value of "SERVER_PORT" to the same value in wrapper\env.json^) Default: 8000>> utilities\config.bat
+echo set PORT=8000>> utilities\config.bat
 goto returnfromconfigcopy

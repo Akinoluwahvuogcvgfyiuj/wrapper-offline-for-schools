@@ -1,5 +1,6 @@
-:: Automatically upgrades an existing W:O install to a new version
-:: Author: benson#0411
+:: Automatically upgrades an existing W:O4S install to a new version
+:: Original Author: benson#0411
+:: Mod Author: jaime.#8359
 :: License: MIT
 
 :: Initialize (stop command spam, clean screen, make variables work, set to UTF-8)
@@ -8,7 +9,7 @@ SETLOCAL ENABLEDELAYEDEXPANSION
 chcp 65001 >nul
 
 :: Move to base folder, and make sure it worked (otherwise things would go horribly wrong)
-pushd "%~dp0"
+pushd "%~dp0..\"
 if !errorlevel! NEQ 0 goto error_location
 if not exist server ( goto error_location )
 if not exist utilities ( goto error_location )
@@ -16,7 +17,7 @@ if not exist wrapper ( goto error_location )
 if not exist start_wrapper.bat ( goto error_location )
 goto noerror_location
 :error_location
-echo Doesn't seem like this script is in the Wrapper: Offline folder.
+echo Doesn't seem like this script is in the Wrapper: Offline For Schools folder.
 echo Please move it to the same folder as start_wrapper.bat
 goto end
 :noerror_location
@@ -46,13 +47,13 @@ if exist "patch.jpg" echo no amount of upgrades can fix a patch && goto end
 
 :: Get info about update
 call upgrade_assets\update_metadata.bat
-title Upgrading Wrapper: Offline to !WRAPPER_NEWVER!
+title Upgrading Wrapper: Offline For Schools to !WRAPPER_NEWVER!
 
 echo Would you like to upgrade to !WRAPPER_NEWVER!?
 echo Update summary: !UPDATE_SUMMARY!
 echo:
 if !MODBREAKING!==y (
-	echo Note: If you mod W:O often, you may want to look through
+	echo Note: If you mod W:O4S often, you may want to look through
 	echo the upgrade_assets folder to see what files you should back up.
 	echo:
 )
@@ -71,7 +72,7 @@ echo You must answer Yes or No. && goto installaskretry
 
 cls
 echo Please do not close this window^^!^^!
-echo Doing so may ruin your copy of Wrapper: Offline.
+echo Doing so may ruin your copy of Wrapper: Offline For Schools.
 echo It's almost certainly NOT frozen, just takes a while.
 echo:
 
@@ -124,7 +125,7 @@ if exist upgrade_assets\extra_postscript.bat (
 color 20
 echo:
 echo:
-echo Update installed^^!
+echo Update installed^!
 echo:
 
 :end

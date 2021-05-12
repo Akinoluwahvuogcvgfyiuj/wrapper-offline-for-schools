@@ -1,11 +1,14 @@
-@echo off
-:: Wrapper Offline Updater
-:: Author: xomdjl_#1337 (ytpmaker1000@gmail.com)
+@echo off && cls
+:: Wrapper Offline For Schools Updater
+:: Original Author: xomdjl_#1337 (ytpmaker1000@gmail.com)
+:: Mod Author: jaime.#8359 (jaigitrep159)
 
-echo Welcome to the Wrapper: Offline updater.
+title Wrapper: Offline For Schools Git Updater
+
+echo Welcome to the Wrapper: Offline For Schools updater.
 popd
 echo:
-echo This will update your copy of Wrapper: Offline to
+echo This will update your copy of Wrapper: Offline For Schools to
 echo the latest build using Git.
 echo:
 echo To continue, press 1.
