@@ -34,13 +34,13 @@ module.exports = function (req, res, url) {
 	var attrs, params, title;
 	switch (url.pathname) {
 		case "/cc": {
-			title = "Character Creator";
+			title = 'Character Creator';
 			attrs = {
-				data: process.env.SWF_URL + "/cc.swf", // data: 'cc.swf',
-				type: "application/x-shockwave-flash",
-				id: "char_creator",
-				width: "100%",
-				height: "100%",
+				data: process.env.SWF_URL + '/cc.swf', // data: 'cc.swf',
+				type: 'application/x-shockwave-flash', 
+				id: 'char_creator', 
+				width: '966', 
+				height: '600', 
 				style:'display:block;margin-left:auto;margin-right:auto;',
 			};
 			params = {
@@ -74,7 +74,7 @@ module.exports = function (req, res, url) {
 				data: process.env.SWF_URL + "/cc_browser.swf", // data: 'cc_browser.swf',
 				type: "application/x-shockwave-flash",
 				id: "char_creator",
-				width: "100%",
+				width: "980",
 				height: "100%",
 				style:'display:block;margin-left:auto;margin-right:auto;',
 			};
@@ -85,7 +85,7 @@ module.exports = function (req, res, url) {
 					clientThemePath: process.env.CLIENT_URL + "/<client_theme>",
 					original_asset_id: query["id"] || null,
 					themeId: "family",
-					ut: 60,
+					ut: 30,
 					appCode: "go",
 					page: "",
 					siteId: "go",
@@ -122,7 +122,7 @@ module.exports = function (req, res, url) {
 					storePath: process.env.STORE_URL + "/<store>",
 					isEmbed: 1,
 					ctc: "go",
-					ut: 60,
+					ut: 30,
 					bs: "default",
 					appCode: "go",
 					page: "",
@@ -157,7 +157,7 @@ module.exports = function (req, res, url) {
 				flashvars: {
 					apiserver: "/",
 					storePath: process.env.STORE_URL + "/<store>",
-					ut: 60,
+					ut: 30,
 					autostart: 1,
 					isWide: 1,
 					clientThemePath: process.env.CLIENT_URL + "/<client_theme>",
@@ -181,7 +181,7 @@ module.exports = function (req, res, url) {
 				flashvars: {
 					apiserver: "/",
 					storePath: process.env.STORE_URL + "/<store>",
-					ut: 60,
+					ut: 30,
 					autostart: 0,
 					isWide: 1,
 					clientThemePath: process.env.CLIENT_URL + "/<client_theme>",
@@ -221,7 +221,7 @@ module.exports = function (req, res, url) {
 		<link rel="stylesheet" type="text/css" href="/pages/css/global.css">
 		<style>
 			body {
-				background: #eee;
+				background: #0c0c0c;
 			}
 		</style>
 	</head>
