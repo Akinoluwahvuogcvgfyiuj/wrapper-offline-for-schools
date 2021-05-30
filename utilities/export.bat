@@ -1,9 +1,12 @@
-:: W:O4S Video Exporting Script
-:: Original Author: xomdjl_#1337 (ytpmaker1000@gmail.com)
+:: W:O Video Exporting Script
+:: Author: xomdjl_#1337 (ytpmaker1000@gmail.com)
 :: License: MIT
 
 @echo off
-title Wrapper: Offline For Schools Exporting Script
+title Wrapper: Offline Exporting Script
+
+:: patch detection
+if exist "..\patch.jpg" echo there's no videos to export if whoppers patched && pause & exit
 
 :: To be quite honest I had to visit some old StackOverflow threads for help on this. ~xom
 
@@ -44,7 +47,7 @@ echo Chances are you probably have this script in the wrong
 echo directory.
 echo:
 echo Make sure it's in the utilities folder of your copy of
-echo Wrapper: Offline For Schools, and then try again.
+echo Wrapper: Offline, and then try again.
 echo:
 pause
 exit
@@ -63,28 +66,30 @@ echo:
 goto findMovieId
 
 :noerror
-:: patch detection
-if exist "patch.jpg" goto patched
 echo Before proceeding, we'll need to check to see if Wrapper: Offline is running.
-PING -n 4 127.0.0.1>nul
+PING -n 3 127.0.0.1>nul
 echo:
 tasklist /FI "IMAGENAME eq node.exe" 2>NUL | find /I /N "node.exe">NUL
 if "%ERRORLEVEL%"=="0" (
-	echo Processes for "node.exe" ^(Node.js^) have been detected, meaning Wrapper: Offline For Schools is running.
-	PING -n 6 127.0.0.1>nul
+	echo Processes for "node.exe" ^(Node.js^) have been detected, meaning Wrapper: Offline is running.
+	PING -n 4 127.0.0.1>nul
 	cls
 ) else (
-	echo We could not detect any processes for "node.exe" ^(Node.js^), which means that 
-	echo Wrapper: Offline For Schools is NOT running.
+	echo We could not detect any processes for "node.exe" ^(Node.js^), which means that Wrapper: Offline is NOT running.
 	echo:
 	echo To fix this, we'll be running "start_wrapper.bat".
 	pause
 	echo:
-	echo Starting Wrapper: Offline For Schools...
-	start ..\start_wrapper.bat
-	PING -n 4 127.0.0.1>nul
+	echo Starting Wrapper: Offline...
+	set SUBSCRIPT=n
+	pushd %~dp0..
+	:: Pushd twice just to be safe
+	pushd %~dp0..
+	start "" "start_wrapper.bat"
+	popd
+	PING -n 3 127.0.0.1>nul
 	echo Wrapper: Offline successfully launched^!
-	PING -n 6 127.0.0.1>nul
+	PING -n 4 127.0.0.1>nul
 	cls
 )
 :selectMovieId
@@ -263,19 +268,19 @@ set /p BROWSERCHOICE= Browser:
 echo:
 if %BROWSERCHOICE%==1 (
 	echo Opening your movie in Basilisk...
-	PING -n 3 127.0.0.1>nul
+	PING -n 2.5 127.0.0.1>nul
 	start basilisk\Basilisk-Portable\Basilisk-Portable.exe "http://localhost:%PORT%/recordWindow?movieId=%MOVIEID%&isWide=%ISWIDE%"
 ) else if %BROWSERCHOICE%==2 (
 	echo Opening your movie in Chromium...
-	PING -n 3 127.0.0.1>nul
+	PING -n 2.5 127.0.0.1>nul
 	start ungoogled-chromium\chromium.exe --allow-outdated-plugins --app="http://localhost:%PORT%/recordWindow?movieId=%MOVIEID%&isWide=%ISWIDE%"
 ) else if %BROWSERCHOICE%==3 (
 	echo Opening your movie in your custom set browser...
-	PING -n 3 127.0.0.1>nul
+	PING -n 2.5 127.0.0.1>nul
 	start %CUSTOMBROWSER% "http://localhost:%PORT%/recordWindow?movieId=%MOVIEID%&isWide=%ISWIDE%"
 ) else if %BROWSERCHOICE%==4 (
 	echo Opening your movie in your default browser...
-	PING -n 3 127.0.0.1>nul
+	PING -n 2.5 127.0.0.1>nul
 	start "" "http://localhost:%PORT%/recordWindow?movieId=%MOVIEID%&isWide=%ISWIDE%"
 ) else (
 	echo You're supposed to pick which browser to use. Try again.
@@ -383,9 +388,28 @@ echo:
 set /p OUTRO= Response:
 echo:
 cls
-if %DEVMODE%==y (
+
+if %OUTRO%==0 (
+goto output
+) else (
+goto outrocheck
+
+
+:outrocheck
+if exist "misc\OriginalOutro16by9.ts" (
+	goto resetoutrocheck
+) else goto customoutro (
+)
+
+:resetoutrocheck
+if %DEVMODE%==n (
+goto customoutro
+) else (
+goto resetcustomoutro
+)
+	:resetcustomoutro
 	echo ^(Developer mode-exclusive option^)
-	if exist "misc\OriginalOutro16by9.ts" (
+		set RESETOUTRO=0
 		echo It looks like you still have a custom outro
 		echo being used.
 		echo:
@@ -400,24 +424,25 @@ if %DEVMODE%==y (
 		if %RESETOUTRO%==1 (
 			pushd misc
 			if not exist "outros" ( mkdir outros )
-			ren Outro16by9.ts PreviouslyUsedOutro.ts
+			ren Outro16by9.ts PreviouslyUsedOutro.ts 
 			set "last=0"
-			set "filename=outros\PreviouslyUsedOutro.ts"
+			set "filename=outros\PreviouslyUsedOutro.ts" 
 			if exist "outros\PreviouslyUsedOutro.ts" (
 				for /R %%i in ("outros\PreviouslyUsedOutro(*).ts") do (
 					for /F "tokens=2 delims=(^)" %%a in ("%%i") do if %%a GTR !last! set "last=%%a"
 				)
 				set/a last+=1
-				set "filename=outros\PreviouslyUsedOutro(!last!).ts"    
+				set "filename=outros\PreviouslyUsedOutro(!last!).ts"   
 			)
-			move "PreviouslyUsedOutro.ts" "%filename%"
-			ren OriginalOutro16by9.ts Outro16by9.ts
+			move "PreviouslyUsedOutro.ts" "%filename%" 
+			ren OriginalOutro16by9.ts Outro16by9.ts 
 			echo The outro has been resetted back to default.
 			echo:
 			pause
 		)
 		cls
-	)
+	
+	:customoutro
 	if exist "misc\outros" (
 		echo Would you like to use a new custom outro
 	) else (
@@ -425,6 +450,7 @@ if %DEVMODE%==y (
 	)
 	echo or the default outro?
 	echo:
+	set CUSTOMOUTROCHOICE=0
 	echo Press 1 if you'd like to use a custom outro.
 	echo Otherwise, press Enter.
 	echo:
@@ -444,23 +470,39 @@ if %DEVMODE%==y (
 		pushd misc
 		ren Outro16by9.ts OriginalOutro16by9.ts
 		echo Encoding outro to compatible H.264/AAC .TS file with FFMPEG...
-		PING -n 3 127.0.0.1>nul
+		PING -n 1.5 127.0.0.1>nul
 		start ffmpeg\ffmpeg.exe -i "%CUSTOMOUTRO%" -vcodec h264 -acodec aac -y "%OUTRO169%"
-		echo Custom outro successfully encoded and added!
+		echo Custom outro successfully encoded and added^!
 		echo:
 		pause
+		cls
+		) else (
+		goto videofilter
+		)
+		
+	:videofilter
+	if %DEVMODE%==n (
+	goto output
+	) else (
+	goto vf
 	)
+	:vf
 	echo ^(Developer mode-exclusive option^)
+	set VFRESPONSE=0
 	echo Would you like to use any additional
 	echo FFMPEG video filters?
 	echo:
 	echo Press 1 if you would like to.
 	echo Otherwise, press Enter.
 	echo:
-	set /p VFRESPONSE: Response: 
+	set /p VFRESPONSE= Response: 
 	echo:
-	cls
-	if %VFREPONSE%==1 (
+	if %VFRESPONSE%==1 (
+		goto avfilters
+		) else goto output (
+		)
+		
+		:avfilters
 		echo Press 1 to retrieve a list of available A/V filters.
 		echo Otherwise, press Enter if you already have one pulled up.
 		echo:
@@ -468,14 +510,20 @@ if %DEVMODE%==y (
 		echo:
 		cls
 		if %AVFILTERLIST%==1 (
-			echo Opening FFMPEG filter list in your default browser...
-			PING -n 3 127.0.0.1>nul
-			start "" "https://ffmpeg.org/ffmpeg-filters.html"
-			echo Opened.
-			PING -n 2 127.0.0.1>nul
-			echo:
-			cls
+		goto filterlist
+		) else goto filterargs (
 		)
+		
+		:filterlist
+		echo Opening FFMPEG filter list in your default browser...
+		PING -n 2.5 127.0.0.1>nul
+		start https://ffmpeg.org/ffmpeg-filters.html
+		echo Opened.
+		PING -n 2 127.0.0.1>nul
+		echo:
+		cls
+		)
+		:filterargs
 		echo Please place your filter args in here.
 		echo:
 		set /p FILTERARGS= Filter args: 
@@ -483,7 +531,8 @@ if %DEVMODE%==y (
 		echo:
 		cls
 	)
-)
+	
+:output
 echo Where would you like to output to?
 echo Press Enter to output to the utilities\renders folder.
 echo:
@@ -570,7 +619,8 @@ if %OUTRO%==1 (
 
 :render_completed
 echo:
-echo The entire rendering process has been complete!
+set WHATTODONEXT=0
+echo The entire rendering process has been complete^!
 echo:
 echo Press 1 to open the rendered file
 echo Press 2 to go to the render output folder
@@ -595,18 +645,14 @@ goto restart
 
 :last_step
 echo:
+set LAST=0
 echo Press 1 to export another video. Otherwise, press Enter to exit.
 set /p LAST= Choice:
-
 if %LAST%==1 (
 	cls
 	set RESTARTVALUE=1
 	goto restart
-) else exit
-
-:patched
-start https://www.youtube.com/watch?v=dQw4w9WgXcQ
-PING -n 12 127.0.0.1>nul
-echo get rickroelked^!^!^!^!^!11^!111^!
-PING -n 6 127.0.0.1>nul
-pause & exit
+	) else (
+	taskkill /im avidemux.exe >nul 2>&1
+	exit
+	)

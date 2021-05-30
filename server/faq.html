@@ -1,21 +1,19 @@
-<html><head>
+<!DOCTYPE html>
+<html>
+<head>
 	<meta charset="UTF-8">
 	<link rel="icon" href="favicon.ico" type="image/png">
 	<title>FAQ</title>
 	<meta name="description" content="A decent portion of the questions you've ever had about Offline probably answered">
-	<link rel="stylesheet" type="text/css" href="pageassets/css/modern-normalize.css">
-	<link rel="stylesheet" type="text/css" href="pageassets/css/global.css">
+	<link rel="stylesheet" type="text/css" href="css/modern-normalize.css">
+	<link rel="stylesheet" type="text/css" href="css/global.css">
 </head>
 <body>
 
 <header>
-	<a href="https://localhost:4343">
-		<img id="logo" src="./logo.svg" alt="Wrapper: Offline">
+	<a href="http://localhost:4343">
+		<h1 style="margin:0"><img id="logo" src="logo.svg" alt="Wrapper: Offline"/></h1>
 	</a>
-	<nav id="headbuttons">
-    		<a href="http://localhost:4664" id="videomaker" class="button_big">Server Homepage</a>
-		<a href="http://localhost:4343" id="videomaker" class="button_big">Video List</a>
-	</nav>
 </header>
 
 <main>
@@ -23,6 +21,9 @@
   
 <h1 id="wrapper-offline-faq">Wrapper: Offline FAQ</h1>
 <p>This file contains tons of useful information based on questions I get a lot about the project. This file’s a little visually noisy, but feel free to CTRL+F and skim through the headers to find what you want.</p>
+
+<p><a href="https://localhost:4664">Click here for the server homepage</a><br />
+	<a href="http://localhost:4343">Click here for the video list</a></p>
 
 <h2 id="about-wrapper-offline">About Wrapper: Offline</h2>
 
@@ -112,10 +113,12 @@ On your first run:</p>
 <h2 id="a-feature-isnt-hereworking">A feature isn’t here/working!</h2>
 
 <h3 id="file-uploading-isnt-working">File uploading isn’t working!</h3>
-<p>Real file uploading doesn't work yet, at least not on any version of Wrapper that I'm aware of. There's a temporary workaround to this however, and that's by running <code class="language-plaintext highlighter-rouge">import.bat</code> which is in the <code class="language-plaintext highlighter-rouge">utilities</code> folder. Your imported assets will go into the "Imported Assets" theme.<br><br>These are the only formats supported: <code class="language-plaintext highlighter-rouge">*.jpg, *.png, *.gif (First frame only, if animated), *.swf, *.mp3</code></p>
+<p>Real file uploading doesn't work yet, at least not on any version of Wrapper that I'm aware of. There's a temporary workaround to this however, and that's by running <code class="language-plaintext highlighter-rouge">import.bat</code> which is in the <code class="language-plaintext highlighter-rouge">utilities</code> folder. Your imported assets will go into the "Imported Assets" theme.<br />
+<br />
+These are the only formats supported: <code class="language-plaintext highlighter-rouge">*.jpg, *.png, *.gif (First frame only, if animated), *.swf, *.mp3</code></p>
 
 <h3 id="audio-problem">I can't do mic recording or uploading audio files!</h3>
-<p>That doesn't work yet either, though I do know of a pretty good solution to this. You can also use this for your SAPI4/5 voices in the included Balabolka. For audio recording however, you may need to use an external program such as Audacity or Windows's built-in Voice Recorder. Special thanks to Kenny Animate for figuring this out! <a href="https://youtu.be/eosslm1QWd8">This tutorial</a> shows you how to lipsync manually. It's a little tedious, but it'll be worth it in the end, depending on what you're working on.
+<p>That doesn't work yet either, though I do know of a pretty good solution to this. You can also use this for your SAPI4/5 voices in the included Balabolka. For audio recording however, you may need to use an external program such as Audacity or Windows's built-in Voice Recorder. Special thanks to Kenny Animate for figuring this out! <a href="https://youtu.be/eosslm1QWd8">This tutorial</a> shows you how to lipsync manually. It's a little tedious, but it'll be worth it in the end, depending on what you're working on.</p>
 
 <h3 id="business-friendly-and-whiteboard-are-missing">Business Friendly and Whiteboard are missing!</h3>
 <p>I go into this in more detail in the legalese section, but basically Vyond is still using them so I won’t include them in Offline.</p>
@@ -128,9 +131,6 @@ On your first run:</p>
 
 <h3 id="starters-arent-working">Starters aren’t working!</h3>
 <p>I currently have no fix for this, you’ll just have to either copy them directly from projects or recreate them.</p>
-
-<h3 id="resizing-set-in-the-character-creator-breaks-when-playing">Resizing set in the Character Creator breaks when playing!</h3>
-<p>I currently have no fix for this, you’ll just have to size them manually in the editor. Head resizing should be working fine, it’s the size of the entire character that’s broken.</p>
 
 <h2 id="can-i-use-offline-on">Can I use Offline on…</h2>
 

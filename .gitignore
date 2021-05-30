@@ -13,9 +13,10 @@ utilities/misc/temp/*
 utilities/grounded_messages/*
 utilities/grounses_messages/*
 utilities/grunses_messages/*
+utilities/decrypted_assets/*
 utilities/config.bat
-utilities/import_tts.bat
-utilities/checks/disclaimer.txt
+utilities/balabolka/balabolka.pcfg
+utilities/checks/*.txt
 server/characters/*
 server/characters/characters.zip
 server/store/3a981f5cb2739137/import/*

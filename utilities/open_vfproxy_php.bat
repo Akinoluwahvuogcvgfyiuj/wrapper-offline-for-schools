@@ -3,7 +3,7 @@
 :: please help
 @echo off
 pushd "%~dp0"
-title VFProxy PHP Launcher for Wrapper: Offline
+title VFProxy PHP Launcher for Wrapper: Offline For Schools
 pushd ..\wrapper\vfproxy
 echo Starting PHP server for VFProxy...
 echo:

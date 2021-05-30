@@ -7,5 +7,8 @@ setlocal
 if "%SUBSCRIPT%"=="" ( start notepad.exe "%CD%\%~nx0" & exit )
 endlocal
 
-:: Version number
+:: Version number and build number
 set WRAPPER_VER=2.0, BETA
+
+:: Title
+set TITLE=Wrapper: Offline For Schools v%WRAPPER_VER%

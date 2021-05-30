@@ -1,7 +1,6 @@
-title Wrapper: Offline For Schools Reset Script
+title Wrapper: Offline Reset Script
 :: Resets any changed files to make a fresh install, meant for devs making a new release
-:: Original Author: benson#0411
-:: Mod Author: jaime.#8359 (jaigitrep159)
+:: Author: benson#0411
 :: License: MIT
 
 :: Initialize (stop command spam, clean screen, make variables work, set to UTF-8)
@@ -18,7 +17,7 @@ if not exist utilities\reset_install.bat ( goto error_location )
 if not exist wrapper ( goto error_location )
 goto noerror_location
 :error_location
-echo Doesn't seem like this script is in Wrapper: Offline For Schools' utilities folder.
+echo Doesn't seem like this script is in Wrapper: Offline's utilities folder.
 goto end
 :noerror_location
 
@@ -35,6 +34,7 @@ if exist "patch.jpg" echo why reset something patched && pause && exit
 
 :: Predefine variables
 set WRAPRESET=n
+set ERROR_DELBASILISK=n
 set ERROR_DELCACHE=n
 set ERROR_DELCHECKS=n
 set ERROR_DELCHROME=n
@@ -44,12 +44,12 @@ set ERROR_DELSAVE=n
 set ERROR_DELSILENTCMD=n
 
 :: Confirmation
-echo Are you sure you'd like to reset Wrapper: Offline For Schools?
+echo Are you sure you'd like to reset Wrapper: Offline?
 echo This will remove all saved videos and characters.
 echo You should only use this if you're a dev or one told you to do it.
 echo This decision is permanent, and can't be reversed.
 echo:
-echo Type y to reset W:O4S, and n to close this script.
+echo Type y to reset Offline, and n to close this script.
 :resetconfirmretry
 set /p RESETCHOICE= Response:
 echo:
@@ -65,38 +65,71 @@ color cf
 echo Are you ABSOLUTELY sure you wish to do this?
 echo You are entirely responsible for losing your videos.
 echo:
-echo Type y to reset W:O4S, and n to close this script.
+echo:
+echo Type y to reset Offline, and n to close this script.
 :resetconfirmretry2
 set /p RESETCHOICE= Response:
 echo:
 if not '%resetchoice%'=='' set resetchoice=%resetchoice:~0,1%
-if /i '%resetchoice%'=='y' goto dothereset
+if /i '%resetchoice%'=='y' goto backuptoolconfirm
 if /i '%resetchoice%'=='n' exit
-if /i '%resetchoice%'=='yes' goto dothereset
+if /i '%resetchoice%'=='yes' goto backuptoolconfirm
 if /i '%resetchoice%'=='no' exit
 goto resetconfirmretry2
 
+:backuptoolconfirm
+color 0f
+echo Before we proceed, would you like to run the
+echo backup tool to backup all your personal
+echo files, like the stuff in your _SAVED folder
+echo or the stuff you've imported? [Y/n]
+echo:
+:backuptoolconfirmretry
+set /p BACKUPCHOICE= Response:
+echo:
+if not '%backupchoice%'=='' set backupchoice=%backupchoice:~0,1%
+if /i '%backupchoice%'=='y' (
+	:launchbackuptool
+	start backup_and_restore.bat
+	echo After doing the backup, please move the folder
+	echo somewhere else outside of the Wrapper: Offline
+	echo directory in case this batch file accidentally
+	echo deletes the backup.
+	echo:
+	pause
+	goto dothereset
+)
+if /i '%backupchoice%'=='n' ( goto dothereset )
+if /i '%backupchoice%'=='yes' ( goto launchbackuptool )
+if /i '%backupchoice%'=='no' ( goto dothereset )
+goto backuptoolconfirmretry
+
 :dothereset
 
-color 0f
 set WRAPRESET=y
+echo The reset will start in exactly 10 seconds...
+PING -n 11 127.0.0.1>nul
 
 :: Reset _SAVED folder
-rd /q /s wrapper\_SAVED || set ERROR_DELSAVE=y
-md wrapper\_SAVED
+set count=0
+pushd wrapper\_SAVED
+FOR /f "delims=" %%i IN ('attrib.exe ./*.* ^| find /v "File not found - " ^| find /c /v ""') DO SET FILE_COUNT=%%i
+popd
+start powershell -ExecutionPolicy RemoteSigned -File "wrapper\delete.ps1" -min "%FILE_COUNT%" || set ERROR_DELSAVE=y
+if not exist "wrapper\_SAVED\_NO_REMÖVE" ( copy NUL "wrapper\_SAVED\_NO_REMÖVE">nul )
 
 :: Reset _CACHE folder
 rd /q /s wrapper\_CACHÉ || set ERROR_DELCACHE=y
 md wrapper\_CACHÉ
-copy NUL "wrapper\_CACHÉ\_NO_REMÖVE"
+copy NUL "wrapper\_CACHÉ\_NO_REMÖVE">nul
 
 :: Reset checks folder
 rd /q /s utilities\checks || set ERROR_DELCHECKS=y
 md utilities\checks
 
 :: Reset settings
-del /q /s utilities\config.bat || set ERROR_DELCONFIG=y
-echo :: Wrapper: Offline For Schools Config>> utilities\config.bat
+del /q /s utilities\config.bat>nul || set ERROR_DELCONFIG=y
+echo :: Wrapper: Offline Config>> utilities\config.bat
 echo :: This file is modified by settings.bat. It is not organized, but comments for each setting have been added.>> utilities\config.bat
 echo :: You should be using settings.bat, and not touching this. Offline relies on this file remaining consistent, and it's easy to mess that up.>> utilities\config.bat
 echo:>> utilities\config.bat
@@ -134,19 +167,23 @@ echo set CEPSTRAL=n>> utilities\config.bat
 echo:>> utilities\config.bat
 echo :: Opens Offline in an included copy of Basilisk, sourced from BlueMaxima's Flashpoint.>> utilities\config.bat
 echo :: Allows continued use of Flash as modern browsers disable it. Default: n>> utilities\config.bat
-echo:>> utilities\config.bat
 echo set INCLUDEDBASILISK=n>> utilities\config.bat
 echo:>> utilities\config.bat
 echo :: Makes it so both the settings and the Wrapper launcher shows developer options. Default: n>> utilities\config.bat
 echo set DEVMODE=n>> utilities\config.bat
 echo:>> utilities\config.bat
-echo :: Tells settings.bat which port the frontend is hosted on. ^(If changed manually, you MUST also change the value of "SERVER_PORT" to the same value in wrapper\env.json^) Default: 8000>> utilities\config.bat
-echo set PORT=8000>> utilities\config.bat
+echo :: Tells settings.bat which port the frontend is hosted on. ^(If changed manually, you MUST also change the value of "SERVER_PORT" to the same value in wrapper\env.json^) Default: 4343>> utilities\config.bat
+echo set PORT=4343>> utilities\config.bat
+echo:>> utilities\config.bat
 
 :: Reset Chromium profile
 rd /q /s utilities\ungoogled-chromium\the_profile || set ERROR_DELCHROME=y
 md utilities\ungoogled-chromium\the_profile
 robocopy utilities\ungoogled-chromium\the_profile_initial utilities\ungoogled-chromium\the_profile /E
+
+:: Reset Basilisk profile
+rd /q /s utilities\basilisk\Basilisk-Portable\User\Basilisk\Profiles\Default || set ERROR_DELBASILISK=y
+md utilities\basilisk\Basilisk-Portable\User\Basilisk\Profiles\Default
 
 :: Reset SilentCMD (unnecessary but might as well)
 del /q /s utilities\SilentCMD.exe.config || set ERROR_DELSILENTCMD=y
@@ -159,12 +196,12 @@ pushd import
 echo ^<?xml version="1.0" encoding="utf-8"?^> >>theme.xml
 echo ^<theme id="import" name="Imported Assets" cc_theme_id="import"^> >>theme.xml
 echo 	^<char id="327068788" name="the benson apparition" cc_theme_id="family" thumbnail_url="char-default.png" copyable="Y"^> >>theme.xml
-echo 		^<tags^>family,every,copy,of,wrapper,offline,is,_free,software,but,is,also,_cat:personalized^</tags^> >>theme.xml
+echo 	^<tags^>family,every,copy,of,wrapper,offline,is,_free,software,but,is,also,_cat:personalized^</tags^> >>theme.xml
 echo 	^</char^> >>theme.xml
 echo:>>theme.xml
 echo ^</theme^> >>theme.xml
 popd
-utilities\7za.exe a "server\store\3a981f5cb2739137\import\import.zip" "server\store\3a981f5cb2739137\import\theme.xml" >nul || set ERROR_DELIMPORT=y & goto skipimportreset
+call utilities\7za.exe a "server\store\3a981f5cb2739137\import\import.zip" "server\store\3a981f5cb2739137\import\theme.xml" >nul || set ERROR_DELIMPORT=y & goto skipimportreset
 del /q /s utilities\import_these || set ERROR_DELIMPORT=y & goto skipimportreset
 md utilities\import_these || set ERROR_DELIMPORT=y & goto skipimportreset
 :skipimportreset
@@ -196,6 +233,11 @@ if !ERROR_DELCHROME!==n (
 ) else (
 	echo Chromium profile could not be deleted.
 )
+if !ERROR_DELBASILISK!==n (
+	echo Basilisk profile successfully deleted.
+) else (
+	echo Basilisk profile could not be deleted.
+)
 if !ERROR_DELSILENTCMD!==n (
 	echo SilentCMD config successfully deleted.
 ) else (
@@ -207,7 +249,7 @@ if !ERROR_DELIMPORT!==n (
 	echo Imported assets could not be deleted.
 )
 echo:
-echo Remember to remove any leftover dev files too, assuming you're a dev.
+echo Remember to remove any leftover dev files too or place them elsewhere, assuming you're a dev.
 
 :end
 if "%SUBSCRIPT%"=="" (

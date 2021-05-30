@@ -8,6 +8,12 @@ title Wrapper: Offline Settings Script
 :: Initialize (stop command spam, clean screen, make variables work, set to UTF-8)
 @echo off && cls
 SETLOCAL ENABLEDELAYEDEXPANSION
+if exist "!onedrive!\Documents" (
+	set PATHTOEXPORTEDCONFIG=!onedrive!\Documents
+) else (
+	set PATHTOEXPORTEDCONFIG=!userprofile!\Documents
+)
+set CONFIGNAME=%username%_config
 
 :: Move to base folder, and make sure it worked (otherwise things would go horribly wrong)
 pushd "%~dp0"
@@ -40,6 +46,7 @@ if exist "patch.jpg" echo MESSAGE GOES HERE && goto end
 :: Preload variable
 set CFG=utilities\config.bat
 set TMPCFG=utilities\tempconfig.bat
+set META=utilities\metadata.bat
 set ENV=wrapper\env.json
 set BACKTODEFAULTTOGGLE=n
 set BASILISKENABLE=n
@@ -53,9 +60,11 @@ set BACKTOCUSTOMTOGGLE2=n
 if "%SUBSCRIPT%"=="" ( 
 	set SUBSCRIPT=y
 	call !cfg!
+	call !meta!
 	set "SUBSCRIPT="
 ) else (
 	call !cfg!
+	call !meta!
 )
 
 ::::::::::
@@ -71,8 +80,8 @@ echo Enter a ? before the number for more info on the option.
 echo:
 
 if !DEVMODE!==y (
-	echo STANDARD OPTIONS:
-	echo:
+	echo Standard options:
+	echo --------------------------------------
 )
 
 :: Verbose
@@ -125,14 +134,11 @@ if exist "wrapper\static\page-nodebug.js" (
 	echo ^(6^) Debug mode is[91m OFF [0m
 )
 :: Dark mode
-if exist "wrapper\pages\css\global-light.css" if not exist "wrapper\pages\html\_OLDLISTVIEW.txt" (
+if exist "wrapper\pages\css\global-light.css" (
 	echo ^(7^) Dark mode is[92m ON [0m
 )
-if exist "wrapper\pages\css\global-dark.css" if not exist "wrapper\pages\html\_OLDLISTVIEW.txt" ( 
+if exist "wrapper\pages\css\global-dark.css" ( 
 	echo ^(7^) Dark mode is[91m OFF [0m
-)
-if exist "wrapper\pages\html\_OLDLISTVIEW.txt" (
-	echo Dark mode cannot be enabled on the classic Video List.
 )
 :: Rich presence
 if exist "wrapper\main-norpc.js" (
@@ -190,8 +196,8 @@ if exist "server\characters\characters.zip" (
 
 if !DEVMODE!==y (
 	echo:
-	echo DEVELOPER OPTIONS:
-	echo:
+	echo Developer options:
+	echo --------------------------------------
 )
 
 :: Dev options
@@ -221,6 +227,8 @@ if !DEVMODE!==y (
 	) else ( 
 		echo ^(D4^) Localhost port for Wrapper: Offline frontend is[91m !PORT! [0m
 	)
+	echo ^(D5^) Reset all the settings in config.bat back to default
+	echo ^(D6^) Import/export config.bat settings
 )
 :reaskoptionscreen
 echo:
@@ -472,6 +480,10 @@ if !DEVMODE!==n (
 	if /i "!choice!"=="?D3" ( goto devmodeerror )
 	if /i "!choice!"=="D4" ( goto devmodeerror )
 	if /i "!choice!"=="?D4" ( goto devmodeerror )
+	if /i "!choice!"=="D5" ( goto devmodeerror )
+	if /i "!choice!"=="?D5" ( goto devmodeerror )
+	if /i "!choice!"=="D6" ( goto devmodeerror )
+	if /i "!choice!"=="?D6" ( goto devmodeerror )
 )
 
 if !DEVMODE!==y (
@@ -522,6 +534,29 @@ if !DEVMODE!==y (
 		echo the frontend is on.
 		goto reaskoptionscreen
 	)
+	if /i "!choice!"=="D5" goto resetconfig
+	if /i "!choice!"=="?D5" (
+		echo Something could happen to config.bat which could totally screw
+		echo the settings up.
+		echo:
+		echo Choosing this feature will COMPLETELY reset the settings that are
+		echo in config.bat back to the default values.
+		echo:
+		echo This is not recommended unless either a dev is using this to
+		echo reset it before publishing an update, config.bat went missing
+		echo on your copy or something weird happened that messed up the
+		echo code for config.bat.
+		goto reaskoptionscreen
+	)
+	if /i "!choice!"=="D6" goto import_exportconfig
+	if /i "!choice!"=="?D6" (
+		echo Importing settings allows you to use another person's settings.
+		echo Exporting settings allows you to share your settings with another person.
+		echo:
+		echo Simple as that. 'Nuff said.
+		goto reaskoptionscreen
+	)
+			
 )
 if "!choice!"=="clr" goto optionscreen
 if "!choice!"=="cls" goto optionscreen
@@ -809,8 +844,8 @@ echo 	"CACHÉ_FOLDER": "./_CACHÉ",>> !env!
 echo 	"THEME_FOLDER": "./_THEMES",>> !env!
 echo 	"PREMADE_FOLDER": "./_PREMADE",>> !env!
 echo 	"EXAMPLE_FOLDER": "./_EXAMPLES",>> !env!
-echo 	"WRAPPER_VER": "1.3.0",>> !env!
-echo 	"WRAPPER_BLD": "12",>> !env!
+echo 	"WRAPPER_VER": "!WRAPPER_VER!",>> !env!
+echo 	"WRAPPER_BLD": "!WRAPPER_BLD!",>> !env!
 echo 	"NODE_TLS_REJECT_UNAUTHORIZED": "0">> !env!
 echo }>> !env!
 set TOTOGGLE=PORT
@@ -885,36 +920,43 @@ if exist "page-nodebug.js" (
 popd
 goto optionscreen
 
-::::::::::::::::
-:: Dark Mode  ::
-::::::::::::::::
+:::::::::::::::
+:: Dark Mode ::
+:::::::::::::::
 :darkmodechange
-echo Toggling setting...
+echo Toggling dark mode...
 pushd wrapper\pages\css
 if exist "global-light.css" (
 	:: disable
 	ren global.css global-dark.css
 	ren global-light.css global.css
-	ren themelist.css themelist-dark.css
-	ren themelist-light.css themelist.css
+	ren create.css create-dark.css
+	ren create-light.css create.css
 	ren list.css list-dark.css
 	ren list-light.css list.css
-	popd
-	pushd wrapper\static
-	ren page.js page-dark.js
-	ren page-light.js page.js
+	ren swf.css swf-dark.css
+	ren swf-light.css swf.css
 ) else ( 
 	:: enable
 	ren global.css global-light.css
 	ren global-dark.css global.css
-	ren themelist.css themelist-light.css
-	ren themelist-dark.css themelist.css
+	ren create.css create-light.css
+	ren create-dark.css create.css
 	ren list.css list-light.css
 	ren list-dark.css list.css
-	popd
-	pushd wrapper\static
-	ren page.js page-light.js
-	ren page-dark.js page.js
+	ren swf.css swf-light.css
+	ren swf-dark.css swf.css
+)
+popd
+pushd server\css
+if exist "global-light.css" (
+	:: disable
+	ren global.css global-dark.css
+	ren global-light.css global.css
+) else ( 
+	:: enable
+	ren global.css global-light.css
+	ren global-dark.css global.css
 )
 popd
 pushd server\animation\414827163ad4eb60
@@ -922,10 +964,14 @@ if exist "cc-light.swf" (
 	:: disable
 	ren cc.swf cc-dark.swf
 	ren cc-light.swf cc.swf
+	ren cc_browser.swf cc_browser-dark.swf
+	ren cc_browser-light.swf cc_browser.swf
 ) else ( 
 	:: enable
 	ren cc.swf cc-light.swf
 	ren cc-dark.swf cc.swf
+	ren cc_browser.swf cc_browser-light.swf
+	ren cc_browser-dark.swf cc_browser.swf
 )
 popd
 goto optionscreen
@@ -948,9 +994,9 @@ if exist "main-norpc.js" (
 popd
 goto optionscreen
 
-::::::::::::::::::
-:: Video List   ::
-::::::::::::::::::
+::::::::::::::::
+:: Video List ::
+::::::::::::::::
 :gridview
 echo Toggling setting...
 pushd wrapper\pages\html
@@ -1003,12 +1049,21 @@ if exist "server\characters\characters.zip" (
     :startextractchars
     echo Opening 7za.exe...
     echo:
-    start "utilities\7za.exe" e server\characters\characters.zip -o server\characters
+    start utilities\7za.exe e "server\characters\characters.zip" -o"server\characters"
     echo The extraction process should be starting now.
-    echo When done, press any key to delete the .zip file.
+	echo:
+	echo Please leave both this window and the other window open, otherwise
+	echo it could fail hard.
+    tasklist /FI "IMAGENAME eq 7za.exe" 2>NUL | find /I /N 7za.exe">NUL
+	if "!errorlevel!"=="0" (
+		echo:>nul
+	) else (
+		echo Extraction completed.
+		del server\characters\characters.zip
+	)
     echo:
-    pause
-    del server\characters\characters.zip
+	pause
+	goto optionscreen
 )
 goto optionscreen
 
@@ -1026,6 +1081,17 @@ if exist "themelist-allthemes.xml" (
 	:: enable
 	ren themelist.xml themelist-allthemes.xml
 	ren themelist-lessthemes.xml themelist.xml
+)
+popd
+pushd wrapper\pages\html
+if exist "create-allthemes.html" (
+	:: disable
+	ren create.html create-lessthemes.html
+	ren create-allthemes.html create.xml
+) else ( 
+	:: enable
+	ren create.html create-allthemes.html
+	ren create-lessthemes.html create.html
 )
 popd
 goto optionscreen
@@ -1099,6 +1165,195 @@ if exist "info-nowatermark.json" (
 )
 popd
 goto optionscreen
+
+::::::::::::::::::
+:: Reset Config ::
+::::::::::::::::::
+:resetconfig
+echo This will COMPLETELY reset all the important settings back to the default.
+echo:
+echo Your settings will be located in the WrapperOffline
+echo folder in Documents if you choose to backup the
+echo settings.
+echo:
+echo This will not affect things like debug mode,
+echo dark mode, waveforms, watermarks or things like that.
+echo:
+echo Would you like to backup your settings?
+echo:
+echo Press 1 if you'd like to.
+echo Otherwise, press Enter.
+echo:
+set /p BACKUPCONFIGRES= Response:
+if "!backupconfigres!"=="1" (
+	if exist "!onedrive!" ( 
+		set DOCUMENTSPATH=!onedrive!\Documents
+	) else (
+		set DOCUMENTSPATH=!userprofile!\Documents
+	)
+	pushd !documentspath!
+	if not exist "WrapperOffline" ( mkdir WrapperOffline )
+	popd
+	copy "!cfg!" "!documentspath!\WrapperOffline\config_backup.bat" /y
+)
+echo:
+echo Resetting settings...
+PING -n 4 127.0.0.1>nul
+del !cfg!
+echo :: Wrapper: Offline Config>> !cfg!
+echo :: This file is modified by settings.bat. It is not organized, but comments for each setting have been added.>> !cfg!
+echo :: You should be using settings.bat, and not touching this. Offline relies on this file remaining consistent, and it's easy to mess that up.>> !cfg!
+echo:>> !cfg!
+echo :: Opens this file in Notepad when run>> !cfg!
+echo setlocal>> !cfg!
+echo if "%%SUBSCRIPT%%"=="" ( start notepad.exe "%%CD%%\%%~nx0" ^& exit )>> !cfg!
+echo endlocal>> !cfg!
+echo:>> !cfg!
+echo :: Shows exactly Offline is doing, and never clears the screen. Useful for development and troubleshooting. Default: n>> !cfg!
+echo set VERBOSEWRAPPER=n>> !cfg!
+echo:>> !cfg!
+echo :: Won't check for dependencies (flash, node, etc) and goes straight to launching. Useful for speedy launching post-install. Default: n>> !cfg!
+echo set SKIPCHECKDEPENDS=n>> !cfg!
+echo:>> !cfg!
+echo :: Won't install dependencies, regardless of check results. Overridden by SKIPCHECKDEPENDS. Mostly useless, why did I add this again? Default: n>> !cfg!
+echo set SKIPDEPENDINSTALL=n>> !cfg!
+echo:>> !cfg!
+echo :: Opens Offline in an included copy of ungoogled-chromium. Allows continued use of Flash as modern browsers disable it. Default: y>> !cfg!
+echo set INCLUDEDCHROMIUM=y>> !cfg!
+echo:>> !cfg!
+echo :: Opens INCLUDEDCHROMIUM in headless mode. Looks pretty nice. Overrides CUSTOMBROWSER and BROWSER_TYPE. Default: y>> !cfg!
+echo set APPCHROMIUM=y>> !cfg!
+echo:>> !cfg!
+echo :: Opens Offline in a browser of the user's choice. Needs to be a path to a browser executable in quotes. Default: n>> !cfg!
+echo set CUSTOMBROWSER=n>> !cfg!
+echo:>> !cfg!
+echo :: Lets the launcher know what browser framework is being used. Mostly used by the Flash installer. Accepts "chrome", "firefox", and "n". Default: n>> !cfg!
+echo set BROWSER_TYPE=chrome>> !cfg!
+echo:>> !cfg!
+echo :: Runs through all of the scripts code, while never launching or installing anything. Useful for development. Default: n>> !cfg!
+echo set DRYRUN=n>> !cfg!
+echo:>> !cfg!
+echo :: Makes it so it uses the Cepstral website instead of VFProxy. Default: n>> !cfg!
+echo set CEPSTRAL=n>> !cfg!
+echo:>> !cfg!
+echo :: Opens Offline in an included copy of Basilisk, sourced from BlueMaxima's Flashpoint.>> !cfg!
+echo :: Allows continued use of Flash as modern browsers disable it. Default: n>> !cfg!
+echo set INCLUDEDBASILISK=n>> !cfg!
+echo:>> !cfg!
+echo :: Makes it so both the settings and the Wrapper launcher shows developer options. Default: n>> !cfg!
+echo set DEVMODE=n>> !cfg!
+echo:>> !cfg!
+echo :: Tells settings.bat which port the frontend is hosted on. ^(If changed manually, you MUST also change the value of "SERVER_PORT" to the same value in wrapper\env.json^) Default: 4343>> !cfg!
+echo set PORT=4343>> !cfg!
+echo:>> !cfg!
+cls
+%0
+
+::::::::::::::::::::::::::::::
+:: Import/export config.bat ::
+::::::::::::::::::::::::::::::
+:import_exportconfig
+		echo Would you like to import a settings file
+		echo or export your settings?
+		echo:
+		echo Press 1 if you would like to import settings.
+		echo Press 2 if you would like to export settings.
+		echo:
+		:settinginexretry
+		set /p SETTINGSRES= Response:
+		if "!settingsres!"=="1" (
+			echo How would you like to import the settings file?
+			echo:
+			echo Press 1 if you'd like to drag it into the window and overwrite.
+			echo Press 2 if you'd like to drag it into the utilities folder and overwrite.
+			echo Press 3 if you already imported it but haven't restarted this window.
+			echo:
+			:importmethodretry
+			set /p IMPORTMETHODRES= Response: 
+			if "!importmethodres!"=="1" (
+				echo Drag your batch file in here.
+				echo:
+				echo ^(No need to worry about renaming it, it does that
+				echo in the copying to the directory.^)
+				echo:
+				:configpathreask
+				set /p CONFIGPATH= Path: 
+				for %%b in !configpath! do ( set EXT=%%~nxb )
+				if "!ext!"==.bat (
+					del !cfg!>nul
+					copy "!configpath!" "!cfg!">nul
+					echo Settings imported.
+					echo:
+					echo Press any key to refresh the settings.
+					pause
+					%0
+				) else (
+					echo Invalid file. Only *.bat is supported.
+					echo:
+					goto configpathreask
+				)
+			)
+			if "!importmethodres!"=="2" (
+				echo Opening the utilities folder...
+				start explorer.exe "%CD%\utilities"
+				echo Drag your settings in the folder.
+				echo:
+				echo If it's also named "config.bat", say yes to overwriting.
+				echo:
+				echo Otherwise, if it's named something else, delete "config.bat",
+				echo move the file in here and rename it to "config.bat".
+				echo:
+				echo The name MUST be "config.bat" OR ELSE none of the important
+				echo stuff in the launcher and stuff will work at all.
+				echo:
+				echo When finished importing the settings, you may press any key to
+				echo refresh the settings screen.
+				echo:
+				pause
+				%0
+			)
+			if "!importmethodres!"=="3" ( %0 )
+		)
+		if "!settingsres!"=="2" (
+			set PATHTOEXPORTEDCONFIG="!userprofile!\Documents"
+			echo You have chosen to export your settings.
+			echo:
+			echo Would you like to name your settings file
+			echo something else?
+			echo:
+			echo If not, press Enter to name it !configname!.bat.
+			echo:
+			echo ^(You do not need to add ".bat", it does that automatically.^)
+			set /p CONFIGNAME= Name: 
+			echo:
+			echo Would you like to export your settings somewhere
+			echo else?
+			echo:
+			echo If not, press Enter to save it to the WrapperOffline
+			echo folder in the Documents folder.
+			echo:
+			set /p PATHTOEXPORTEDCONFIG= Path:
+			echo:
+			if "!pathtoexportedconfig!"=="!onedrive!\Documents" (
+				if not exist "!pathtoexportedconfig!\WrapperOffline" ( mkdir "!pathtoexportedconfig!\WrapperOffline" )
+			)
+			if "!pathtoexportedconfig!"=="!userprofile!\Documents" (
+				if not exist "!pathtoexportedconfig!\WrapperOffline" ( mkdir "!pathtoexportedconfig!\WrapperOffline" )
+			)
+			copy "!cfg!" "!pathtoexportedconfig!\!configname!.bat">nul
+			echo:
+			if !VERBOSEWRAPPER!==n (
+				echo Settings exported to specified path.
+			) else (
+				echo Settings exported to directory "!pathtoexportedconfig!" with filename "!configname!.bat".
+			)
+			echo:
+			pause
+			goto optionscreen
+		)
+		if "!settingsres!"=="" ( echo You must select a valid option. && goto settinginexretry )
+	)
+
 
 :end
 endlocal
