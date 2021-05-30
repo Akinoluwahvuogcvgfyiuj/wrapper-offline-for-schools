@@ -15632,6 +15632,7 @@
   <prop id="walking_stick.swf" name="Walking Stick" holdable="1" placeable="1" wearable="0" facing="left" thumb="" enable="Y" is_premium="N" aid="3360" money="0" sharing="0" handstyle="stick"/>
   <prop id="water_dispenser.swf" name="Water Dispenser" holdable="0" placeable="1" wearable="0" facing="left" thumb="" enable="N" is_premium="N" aid="3361" money="0" sharing="0"/>
   <prop id="wool_ball.swf" name="Wool Ball" holdable="1" placeable="1" wearable="0" facing="left" thumb="" enable="Y" is_premium="N" aid="3362" money="0" sharing="0" handstyle="flat"/>
+  <prop id="msp_ncc_tv_remote.swf" name="TV Remote" holdable="1" placeable="1" wearable="0" facing="left" thumb="" enable="Y" is_premium="N" aid="12159" money="0" sharing="0" />
   <prop id="kitchen_refrigerator.swf" name="refrigerator" holdable="0" placeable="1" wearable="0" facing="left" thumb="" enable="N" is_premium="N" aid="3363" money="0" sharing="0"/>
   <prop id="conference_room_table.swf" name="conference room table" holdable="0" placeable="1" wearable="0" facing="left" thumb="" enable="N" is_premium="N" aid="3364" money="0" sharing="0"/>
   <prop id="spacious_cubicle_chair.swf" name="stylish chair" holdable="0" placeable="1" wearable="0" facing="left" thumb="" enable="N" is_premium="N" aid="3365" money="0" sharing="0"/>
